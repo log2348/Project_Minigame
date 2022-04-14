@@ -1,5 +1,12 @@
 package ver1;
 
+//플레이어 만들 때!~!!!!!!
+//객체 이곳저곳에서 
+//만들x
+//
+//인스턴스주소값 1개여야함.
+//싱글톤패턴으로 설계하기
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -7,127 +14,95 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class BackgroundMapServiceFrame implements Runnable{
+public class BackgroundMapServiceFrame implements Runnable {
 
-	private BufferedImage image;
+	private BufferedImage serviceImg;
 	private Player player;
-	
+
 	public BackgroundMapServiceFrame(Player player) {
 		this.player = player;
-		
 		try {
-			image  = ImageIO.read(new File("images/kitService.png"));
+			serviceImg = ImageIO.read(new File("images/Map_kitService.jpg"));
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	
+
+	} // end of 생성자
+
 	@Override
-	public void run() {
+	public void run() { // class가 Runnable이라서 자동 override
 		// 색상 확인
-		while(true) {
-			// 플레이어 왼쪽 색
-			Color leftColor = new Color(image.getRGB(player.getX() + 5, player.getY() + 40));
-			int leftColorNum = image.getRGB(player.getX() + 5, player.getY() + 40);
-			// 플레이어 오른쪽 색
-			Color rightColor = new Color(image.getRGB(player.getX() + 55 + 10, player.getY() + 40));
-			int rightColorNum = image.getRGB(player.getX() + 55 + 10, player.getY() + 40);
-			Color bottomColor = new Color(image.getRGB(player.getX() + 27, player.getY() + 80 +10));
-			int bottomColorNum = image.getRGB(player.getX() + 10 + 27, player.getY() + 80)
-					+ image.getRGB(player.getX() + 27 , player.getY() + 80);
-			Color topColor = new Color(image.getRGB(player.getX() + 27, player.getY()));
-			int topColorNum = image.getRGB(player.getX(), player.getY())
-					+ image.getRGB(player.getX() + 55, player.getY());
-			
-			
-			System.out.println(bottomColor);
-			
+		while (true) { // 무한루프
+
+			int pWidth = player.getWidth();
+			int pHeight = player.getHeight();
+
+			Color leftColor = new Color(serviceImg.getRGB(player.getX() + 5, player.getY() + 10));
+			int leftColorInt = serviceImg.getRGB(player.getX() + 5, player.getY() + 10);
+
+			Color rightColor = new Color(serviceImg.getRGB(player.getX() + pWidth, player.getY() + 10));
+			int rightColorInt = serviceImg.getRGB(player.getX() + pWidth, player.getY() + 10);
+
+			int topColorInt = serviceImg.getRGB(player.getX() + 20, player.getY())
+					+ serviceImg.getRGB(player.getX() + 50 - 20, player.getY());
+
+			int bottomColorInt = serviceImg.getRGB(player.getX() + 20, player.getY() + pHeight - 13)
+					+ serviceImg.getRGB(player.getX() + 50 - 20, player.getY() + pHeight - 13);
+
 			// 외벽 및 바닥충돌
-			
-			if(leftColorNum != -1) {
-				// 플레이어 왼쪽 이동 금지
-				//player.setLeftWallCrash(true);
-				player.setLeft(false);
-				System.out.println(leftColor);
-			}else if(rightColorNum != -1){
-				// 플레이어 오른쪽 이동 금지
-				//player.setRightWallCrash(true);
-				player.setRight(false);
-				System.out.println(rightColor);
-			}else if(bottomColorNum != -2) {
-				// 플레이어 아래 이동 금지
+			System.out.println("===========================");
+			System.out.println(pWidth + "," + pHeight);
+			System.out.println("leftColor: " + leftColor);
+			System.out.println("leftColorInt: " + leftColorInt);
+			System.out.println("rightColor: " + rightColor);
+			System.out.println("rightColorInt: " + rightColorInt);
+
+//			System.out.println("bottomColor: " + bottomColor);
+			System.out.println("bottomColorInt: " + bottomColorInt);
+//			System.out.println("topColor: " + topColor);
+			System.out.println("topColorInt: " + topColorInt);
+
+			if (bottomColorInt != -2) { // 바닥흰색배경이 아니면
+
+				System.out.println("바닥과 닿았어");
+				player.setBottomCrash(false);
+
 				player.setDown(false);
-				System.out.println(bottomColor);
-			}else if(topColorNum != -2) {
-				// 플레이어 위로 이동 금지
+				player.setJumpDownInKit(false);
+
+			} else if (topColorInt != -2) { // 천장흰색아니면
+				System.out.println("천장과 닿았어");
+				player.setTopCrash(false);
 				player.setUp(false);
-				System.out.println(topColorNum);
-			}else {
-				// 플레이어 자유롭게 이동
+				player.setJumpUpInKit(false);
+
+			} else if (leftColorInt != -1) {
+				System.out.println("왼쪽벽에 충돌했어");
+				player.setLeftWallCrash(true);
+				player.setLeft(false);
 				
-				// 점프하는 순간 down 메소드 호출
-				if(!player.isUp() && !player.isDown()) { // 내려가다가 끝까지 내려감
-					// 버그 (무한 호출) : 백그라운드서비스는 계속 실행 됨
-					// Player에서 down == false 일 경우에만 한번 실행되게 수정해야 함
-					player.down();
-					//System.out.println("아래로");
-				}
+			} else if (rightColorInt != -1) {
+				System.out.println("오른쪽 벽에 충돌했어");
+				player.setRightWallCrash(true);
+				player.setRight(false);
+
+			} else {
+				player.setLeftWallCrash(false);
+				player.setRightWallCrash(false);
+				player.setTopCrash(false);
+				player.setBottomCrash(false);
 			}
-			
-			// 주문(노란색) RGB(225 225 0)
-			if(leftColor.getRed() == 225 && leftColor.getGreen() == 225 && leftColor.getBlue() == 0) {
-				System.out.println("주문이 접수되었습니다");
-				// 반죽(연두색) RGB(0 225 0)
-			}else if(leftColor.getRed() == 0 && leftColor.getGreen() == 225 && leftColor.getBlue() == 0) { 
-				System.out.println("반죽합니다");
-				// 튀김기(파란색) RGB(0 0 225)
-			}else if(leftColor.getRed() == 0 && leftColor.getGreen() == 0 && leftColor.getBlue() == 225) {
-				System.out.println("튀기기1"); 
-				// 튀김 (분홍색) RGB(225 0 225)
-			}else if(leftColor.getRed() == 225 && leftColor.getGreen() == 0 && leftColor.getBlue() == 225) { 
-				System.out.println("튀기기2");
-				// 양념 (금색) RGB(200 200 0)
-			}else if(rightColor.getRed() == 200 && rightColor.getGreen() == 200 && rightColor.getBlue() == 0) { 
-				System.out.println("양념바르기");
-				// 포장 (진한금색) RGB(150 150 0)
-			}else if(rightColor.getRed() == 150 && rightColor.getGreen() == 150 && rightColor.getBlue() == 0) { 
-				System.out.println("포장하기");
-				// 냉장고 RGB(92 156 109)
-			}else if(rightColor.getRed() == 92 && rightColor.getGreen() == 156 && rightColor.getBlue() == 109) { 
-				System.out.println("냉장고에서 생닭 꺼내기");
-				// 입구 RGB(0 225 225)
-			}else if(rightColor.getRed() == 0 && rightColor.getGreen() == 225 && rightColor.getBlue() == 225) { 
-				System.out.println("주방으로 입장하였습니다");
-			}else {
-				System.out.println("바쁘다 바빠");
-			}
-			
-			// 배달지 상세
-			if(topColor.getRed() == 200 && topColor.getGreen() == 160 && topColor.getBlue() == 99) {
-				System.out.println("금색지붕 배달완료");
-			}else if(topColor.getRed() == 7 && topColor.getGreen() == 145 && topColor.getBlue() == 58) {
-				System.out.println("녹색지붕 배달완료");
-			}else if(topColor.getRed() == 0 && topColor.getGreen() == 160 && topColor.getBlue() == 233) {
-				System.out.println("하늘색지붕 배달완료");
-			}else if(topColor.getRed() == 230 && topColor.getGreen() == 0 && topColor.getBlue() == 18) {
-				System.out.println("빨간색지붕 배달완료");
-			}else if(topColor.getRed() == 164 && topColor.getGreen() == 10 && topColor.getBlue() == 94) {
-				System.out.println("분홍색지붕 배달완료");
-			}else if(topColor.getRed() == 30 && topColor.getGreen() == 71 && topColor.getBlue() == 156) {
-				System.out.println("파란색지붕 배달완료");
-			}else if(topColor.getRed() == 128 && topColor.getGreen() == 78 && topColor.getBlue() == 33) {
-				System.out.println("갈색지붕 배달완료");
-			}
-			
+
 			try {
-				Thread.sleep(3);
+				Thread.sleep(3);// thread가 길면.. check해야하는애가 기다리고 있어서 컬러값 check못하고 떨어짐
+				// 캐릭터가 이동될 때 color값을 못찾는 경우가 있다.
+				// 이동속도보다 더 빠르게 움직여야 해결 가능.
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
-			
-		}
-	}
+		} // end of while
 
-}
+	} // end of run()
+
+} // end of class
