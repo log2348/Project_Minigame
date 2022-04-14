@@ -86,8 +86,7 @@ public class Chicken extends JLabel {
 		x = player.getX();
 		y = player.getY();
 		
-		setIcon(raw);
-		setSize(40, 30);
+		
 		
 		state = 0;
 	}
@@ -98,18 +97,32 @@ public class Chicken extends JLabel {
 			@Override
 			public void run() {
 				if(player.getX() == 308 && player.getY() == 684) {
+					setIcon(pos2);
+					setSize(40, 30);
 					System.out.println("주문을 받습니다");
 				}else if(player.getX() == 780 && player.getY() == 644) {
+					setIcon(raw);
+					setSize(40, 30);
 					System.out.println("냉장고에서 생닭을 꺼냅니다");
 				}else if(player.getX() == 370 && player.getY() == 456) {
+					setIcon(chickDummy1);
+					setSize(40, 30);
 					System.out.println("생닭을 반죽합니다");
 				}else if(player.getX() == 370 && player.getY() == 296) {
+					setIcon(frying1);
+					setSize(40, 30);
 					System.out.println("반죽을 튀깁니다");
 				}else if(player.getX() == 370 && player.getY() == 128) {
+					setIcon(frying2);
+					setSize(40, 30);
 					System.out.println("한 번 더 튀깁니다");
 				}else if(player.getX() == 760 && player.getY() == 160) {
+					setIcon(chickDummy3);
+					setSize(40, 30);
 					System.out.println("양념합니다");
 				}else if(player.getX() == 760 && player.getY() == 352) {
+					setIcon(box2);
+					setSize(40, 30);
 					System.out.println("포장합니다");
 				}
 			}
