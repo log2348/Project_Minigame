@@ -53,6 +53,7 @@ public class Chicken extends JLabel {
 		this.player = player;
 		initObject();
 		initSetting();
+		initThread();
 	}
 	
 	private void initObject() {
