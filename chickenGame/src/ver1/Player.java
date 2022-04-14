@@ -11,6 +11,7 @@ import lombok.Data;
 public class Player extends JLabel implements Moveable {
 
 	private static Player instance = new Player();
+	private boolean completeDelivery;
 	// 위치상태
 	private int x;
 	private int y;
@@ -27,6 +28,7 @@ public class Player extends JLabel implements Moveable {
 	private boolean jumpDownInKit;
 	private boolean jumpUpInDel;
 	private boolean jumpDownInDel;
+	
 
 	// 플레이어 속도 상태
 	private final int SPEED = 4;
@@ -38,7 +40,6 @@ public class Player extends JLabel implements Moveable {
 	private boolean TopCrash;
 	private boolean bottomCrash;
 
-	private boolean isCompleteDelivery;
 	// 이미지 저장
 	private ImageIcon kitPlayerF; // 키친에서의 앞모습
 	// 일단 뒤(Top)으로 갈땐 뒷면말고 left/right모습으로 가기로
@@ -52,7 +53,7 @@ public class Player extends JLabel implements Moveable {
 	// TODO 나중에 객체랑 상호작용해주는 부분 구현필요할 듯
 	// 예를들어 벽에 충돌한 상태
 
-	Player() {
+	private Player() {
 		initObject();
 		initSetting();
 		initBackgroundPlayerService();
@@ -133,6 +134,7 @@ public class Player extends JLabel implements Moveable {
 						e.printStackTrace();
 					}
 				}
+				
 			}
 		}).start();
 	}
