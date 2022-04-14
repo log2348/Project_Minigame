@@ -20,20 +20,18 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 	// 주방 맵
 	private JLabel kitchenMapImg;
 	// 이미지 파일명
-	private String deliveryMapFileName = "images/deliveryMap.png";
-	private String kitchenMapFileName = "images/kitchenMap.png";
-
-	// 매출, 평점
+	private String deliveryMapFileName = "images/Map_del.jpg";
+	private String kitchenMapFileName = "images/Map_kit.jpg";
+	// 매출 패널
 	private ScorePanel scorePanel;
-
-	private Sales sales;
-	private Grade grade;
 
 	private JButton changeDeliveryMapBtn;
 	private JButton changeKitchenMapBtn;
-
+	
 	private JPanel deliveryMapPanel;
 	private JPanel kitchenMapPanel;
+
+	private Sales sales;
 
 	private Player player;
 
@@ -57,16 +55,15 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		changeDeliveryMapBtn = new JButton("배달하기");
 		changeKitchenMapBtn = new JButton("주방으로");
 
-		changeDeliveryMapBtn.setFont(new Font("맑은고딕", Font.BOLD, 15));
-		changeKitchenMapBtn.setFont(new Font("맑은고딕", Font.BOLD, 15));
+		changeDeliveryMapBtn.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		changeKitchenMapBtn.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
 		deliveryMapPanel = new JPanel();
 		kitchenMapPanel = new JPanel();
 
 		scorePanel = new ScorePanel();
 
-		grade = new Grade();
-		sales = new Sales();
+		sales = new Sales(player);
 
 	}
 
@@ -74,8 +71,8 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		setLayout(null);
 		setLocationRelativeTo(null);
 
-		changeDeliveryMapBtn.setBounds(750, 700, 100, 40);
-		changeKitchenMapBtn.setBounds(750, 700, 100, 40);
+		changeDeliveryMapBtn.setBounds(850, 700, 100, 40);
+		changeKitchenMapBtn.setBounds(850, 700, 100, 40);
 
 		kitchenMapImg.add(changeDeliveryMapBtn);
 		deliveryMapImg.add(changeKitchenMapBtn);
@@ -83,30 +80,28 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		kitchenMapPanel.add(kitchenMapImg);
 		deliveryMapPanel.add(deliveryMapImg);
 
-		setContentPane(deliveryMapPanel);
-
-		scorePanel.setSize(120, 70);
-		scorePanel.setBounds(430, 30, 120, 100);
-
+		setContentPane(kitchenMapPanel);
 		kitchenMapImg.add(player);
-		deliveryMapImg.add(player);
 
-		deliveryMapImg.add(scorePanel);
+		scorePanel.setBackground(Color.pink);
+		scorePanel.setBounds(430, 5, 150, 30);
+
 		kitchenMapImg.add(scorePanel);
 
 		setVisible(true);
 		setResizable(false);
 	}
 
-	private class ScorePanel extends JPanel {
+	class ScorePanel extends JPanel {
+
 		@Override
-		protected void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			g.setColor(Color.BLACK);
-			g.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-			g.drawString(sales.toString(), 430, 30);
-			g.drawString(grade.toString(), 430, 50);
+		public void paint(Graphics g) {
+			super.paint(g);
+			g.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+			g.setColor(Color.black);
+			g.drawString(sales.toString(), 430, 5);
 		}
+
 	}
 
 	private void addEventListener() {
@@ -117,9 +112,9 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		this.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				
+
 				int keyCode = e.getKeyCode();
-				
+
 				if (keyCode == KeyEvent.VK_UP) {
 					System.out.println("111111111");
 
@@ -147,11 +142,13 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 			setContentPane(deliveryMapPanel);
 			deliveryMapImg.add(player);
 			deliveryMapImg.add(scorePanel);
+			deliveryMapImg.updateUI();
 		} else if (changeKitchenMapBtn == targetBtn) {
 			System.out.println("주방으로");
 			setContentPane(kitchenMapPanel);
 			kitchenMapImg.add(player);
 			kitchenMapImg.add(scorePanel);
+			kitchenMapImg.updateUI();
 		}
 
 		repaint();
