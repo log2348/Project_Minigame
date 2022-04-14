@@ -91,4 +91,30 @@ public class Chicken extends JLabel {
 		
 		state = 0;
 	}
+	
+	private void initThread() {
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				if(player.getX() == 308 && player.getY() == 684) {
+					System.out.println("주문을 받습니다");
+				}else if(player.getX() == 780 && player.getY() == 644) {
+					System.out.println("냉장고에서 생닭을 꺼냅니다");
+				}else if(player.getX() == 370 && player.getY() == 456) {
+					System.out.println("생닭을 반죽합니다");
+				}else if(player.getX() == 370 && player.getY() == 296) {
+					System.out.println("반죽을 튀깁니다");
+				}else if(player.getX() == 370 && player.getY() == 128) {
+					System.out.println("한 번 더 튀깁니다");
+				}else if(player.getX() == 760 && player.getY() == 160) {
+					System.out.println("양념합니다");
+				}else if(player.getX() == 760 && player.getY() == 352) {
+					System.out.println("포장합니다");
+				}
+			}
+		}).start();
+	}
+	
+	
 }
