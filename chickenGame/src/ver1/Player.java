@@ -1,4 +1,4 @@
-package chickenGame;
+package ver1;
 
 import java.awt.Color;
 
@@ -8,16 +8,16 @@ import javax.swing.JLabel;
 import lombok.Data;
 
 @Data
-public class Player_s extends JLabel implements Moveable_s {
+public class Player extends JLabel implements Moveable {
 
-	// 위치상태
+	// �쐞移섏긽�깭
 	private int x;
 	private int y;
 
-	// 플레이어의 방향
-	private PlayerWay_s playerWay;
+	// �뵆�젅�씠�뼱�쓽 諛⑺뼢
+	private PlayerWay playerWay;
 
-	// 움직임 상태
+	// ��吏곸엫 �긽�깭
 	private boolean left;
 	private boolean right;
 	private boolean up;
@@ -25,28 +25,28 @@ public class Player_s extends JLabel implements Moveable_s {
 	private boolean jumpUp;
 	private boolean jumpDown;
 
-	// 플레이어 속도 상태
+	// �뵆�젅�씠�뼱 �냽�룄 �긽�깭
 	private final int SPEED = 4;
 	private final int JUMPSPEED = 2;
 
-	// 벽에 충돌한 상태
+	// 踰쎌뿉 異⑸룎�븳 �긽�깭
 	private boolean leftWallCrash;
 	private boolean rightWallCrash;
 
-	// 이미지 저장
-	private ImageIcon kitPlayerF; // 키친에서의 앞모습
-	// 일단 뒤(Top)으로 갈땐 뒷면말고 left/right모습으로 가기로
-	private ImageIcon kitPlayerL; // 키친에서의 왼쪽모습
-	private ImageIcon kitPlayerR; // 키친에서의 오른쪽모습
+	// �씠誘몄� ���옣
+	private ImageIcon kitPlayerF; // �궎移쒖뿉�꽌�쓽 �븵紐⑥뒿
+	// �씪�떒 �뮘(Top)�쑝濡� 媛덈븧 �뮮硫대쭚怨� left/right紐⑥뒿�쑝濡� 媛�湲곕줈
+	private ImageIcon kitPlayerL; // �궎移쒖뿉�꽌�쓽 �쇊履쎈え�뒿
+	private ImageIcon kitPlayerR; // �궎移쒖뿉�꽌�쓽 �삤瑜몄そ紐⑥뒿
 
-	private ImageIcon delPlayerL; // 배달맵에서의 왼쪽모습
-	private ImageIcon delPlayerR;// 배달맵에서의 오른쪽모습
-	// 배달맵에서는 앞모습뒷모습 둘 다 없음
+	private ImageIcon delPlayerL; // 諛곕떖留듭뿉�꽌�쓽 �쇊履쎈え�뒿
+	private ImageIcon delPlayerR;// 諛곕떖留듭뿉�꽌�쓽 �삤瑜몄そ紐⑥뒿
+	// 諛곕떖留듭뿉�꽌�뒗 �븵紐⑥뒿�뮮紐⑥뒿 �몮 �떎 �뾾�쓬
 
-	// TODO 나중에 객체랑 상호작용해주는 부분 구현필요할 듯
-	// 예를들어 벽에 충돌한 상태
+	// TODO �굹以묒뿉 媛앹껜�옉 �긽�샇�옉�슜�빐二쇰뒗 遺�遺� 援ы쁽�븘�슂�븷 �벏
+	// �삁瑜쇰뱾�뼱 踰쎌뿉 異⑸룎�븳 �긽�깭
 
-	public Player_s() {
+	public Player() {
 		initObject();
 		initSetting();
 		initBackgroundPlayerService();
@@ -85,9 +85,9 @@ public class Player_s extends JLabel implements Moveable_s {
 		leftWallCrash = false;
 		rightWallCrash = false;
 
-		playerWay = PlayerWay_s.RIGHT;
+		playerWay = PlayerWay.RIGHT;
 		setIcon(kitPlayerF);
-		setSize(55, 80); // 사이즈 통일
+		setSize(55, 80); // �궗�씠利� �넻�씪
 		setLocation(x, y);
 //		setBackground(new Color(0, 0, 0, 122));
 //		setVisible(true);
@@ -95,13 +95,13 @@ public class Player_s extends JLabel implements Moveable_s {
 	}
 
 	private void initBackgroundPlayerService() {
-		new Thread(new BackgroundMapService_s(this)).start();
+		new Thread(new BackgroundMapServiceFrame(this)).start();
 	}
 
 	@Override
 	public void left() {
 		System.out.println("left");
-		playerWay = PlayerWay_s.LEFT;
+		playerWay = PlayerWay.LEFT;
 		left = true;
 		new Thread(new Runnable() {
 			@Override
@@ -249,7 +249,7 @@ public class Player_s extends JLabel implements Moveable_s {
 
 
 
-////소담백업코드
+////�냼�떞諛깆뾽肄붾뱶
 //package chickenGame;
 //
 //import java.awt.Color;
@@ -262,14 +262,14 @@ public class Player_s extends JLabel implements Moveable_s {
 //@Data
 //public class Player_s extends JLabel implements Moveable_s {
 //
-//	// 위치상태
+//	// �쐞移섏긽�깭
 //	private int x;
 //	private int y;
 //
-//	// 플레이어의 방향
+//	// �뵆�젅�씠�뼱�쓽 諛⑺뼢
 //	private PlayerWay_s playerWay;
 //
-//	// 움직임 상태
+//	// ��吏곸엫 �긽�깭
 //	private boolean left;
 //	private boolean right;
 //	private boolean up;
@@ -277,26 +277,26 @@ public class Player_s extends JLabel implements Moveable_s {
 //	private boolean jumpUp;
 //	private boolean jumpDown;
 //
-//	// 플레이어 속도 상태
+//	// �뵆�젅�씠�뼱 �냽�룄 �긽�깭
 //	private final int SPEED = 4;
 //	private final int JUMPSPEED = 2;
 //
-//	// 벽에 충돌한 상태
+//	// 踰쎌뿉 異⑸룎�븳 �긽�깭
 //	private boolean leftWallCrash;
 //	private boolean rightWallCrash;
 //
-//	// 이미지 저장
-//	private ImageIcon kitPlayerF; // 키친에서의 앞모습
-//	// 일단 뒤(Top)으로 갈땐 뒷면말고 left/right모습으로 가기로
-//	private ImageIcon kitPlayerL; // 키친에서의 왼쪽모습
-//	private ImageIcon kitPlayerR; // 키친에서의 오른쪽모습
+//	// �씠誘몄� ���옣
+//	private ImageIcon kitPlayerF; // �궎移쒖뿉�꽌�쓽 �븵紐⑥뒿
+//	// �씪�떒 �뮘(Top)�쑝濡� 媛덈븧 �뮮硫대쭚怨� left/right紐⑥뒿�쑝濡� 媛�湲곕줈
+//	private ImageIcon kitPlayerL; // �궎移쒖뿉�꽌�쓽 �쇊履쎈え�뒿
+//	private ImageIcon kitPlayerR; // �궎移쒖뿉�꽌�쓽 �삤瑜몄そ紐⑥뒿
 //
-//	private ImageIcon delPlayerL; // 배달맵에서의 왼쪽모습
-//	private ImageIcon delPlayerR;// 배달맵에서의 오른쪽모습
-//	// 배달맵에서는 앞모습뒷모습 둘 다 없음
+//	private ImageIcon delPlayerL; // 諛곕떖留듭뿉�꽌�쓽 �쇊履쎈え�뒿
+//	private ImageIcon delPlayerR;// 諛곕떖留듭뿉�꽌�쓽 �삤瑜몄そ紐⑥뒿
+//	// 諛곕떖留듭뿉�꽌�뒗 �븵紐⑥뒿�뮮紐⑥뒿 �몮 �떎 �뾾�쓬
 //
-//	// TODO 나중에 객체랑 상호작용해주는 부분 구현필요할 듯
-//	// 예를들어 벽에 충돌한 상태
+//	// TODO �굹以묒뿉 媛앹껜�옉 �긽�샇�옉�슜�빐二쇰뒗 遺�遺� 援ы쁽�븘�슂�븷 �벏
+//	// �삁瑜쇰뱾�뼱 踰쎌뿉 異⑸룎�븳 �긽�깭
 //
 //	public Player_s() {
 //		initObject();
@@ -330,7 +330,7 @@ public class Player_s extends JLabel implements Moveable_s {
 //
 //		playerWay = PlayerWay_s.RIGHT;
 //		setIcon(kitPlayerF);
-//		setSize(55, 80); // 사이즈 통일
+//		setSize(55, 80); // �궗�씠利� �넻�씪
 //		setLocation(x, y);
 ////		setBackground(new Color(0, 0, 0, 122));
 ////		setVisible(true);
