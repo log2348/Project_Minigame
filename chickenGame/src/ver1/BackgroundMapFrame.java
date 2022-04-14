@@ -3,7 +3,6 @@ package ver1;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -21,8 +20,8 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 	// 주방 맵
 	private JLabel kitchenMapImg;
 	// 이미지 파일명
-	private String deliveryMapFileName = "images/Map_del.jpg";
-	private String kitchenMapFileName = "images/Map_kit.jpg";
+	private String deliveryMapFileName = "images/deliveryMap.png";
+	private String kitchenMapFileName = "images/kitchenMap.png";
 
 	// 매출, 평점
 	private ScorePanel scorePanel;
@@ -67,7 +66,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		scorePanel = new ScorePanel();
 
 		grade = new Grade();
-		sales = new Sales(player);
+		sales = new Sales();
 
 	}
 
@@ -84,13 +83,15 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		kitchenMapPanel.add(kitchenMapImg);
 		deliveryMapPanel.add(deliveryMapImg);
 
-		setContentPane(kitchenMapPanel);
-		kitchenMapImg.add(player);
+		setContentPane(deliveryMapPanel);
 
 		scorePanel.setSize(120, 70);
 		scorePanel.setBounds(430, 30, 120, 100);
-		scorePanel.setForeground(new Color(Color.OPAQUE));
-		
+
+		kitchenMapImg.add(player);
+		deliveryMapImg.add(player);
+
+		deliveryMapImg.add(scorePanel);
 		kitchenMapImg.add(scorePanel);
 
 		setVisible(true);
@@ -146,13 +147,11 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 			setContentPane(deliveryMapPanel);
 			deliveryMapImg.add(player);
 			deliveryMapImg.add(scorePanel);
-			deliveryMapImg.updateUI();
 		} else if (changeKitchenMapBtn == targetBtn) {
 			System.out.println("주방으로");
 			setContentPane(kitchenMapPanel);
 			kitchenMapImg.add(player);
 			kitchenMapImg.add(scorePanel);
-			kitchenMapImg.updateUI();
 		}
 
 		repaint();
