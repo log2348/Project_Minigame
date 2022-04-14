@@ -1,29 +1,44 @@
 package ver1;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Random;
 
-@Getter
-@Setter
-public class Sales {
+import javax.swing.JLabel;
+
+public class Sales extends JLabel{
 
 	private Player player;
 
+	private Chicken chicken;
+
 	private int totalSales;
 
-	public Sales(Player player) {
-		this.player = player;
+	private int goalSales;
+	
+	public Sales() {
+		player = Player.getInstance();
 		
-		if(player.isCompleteDelivery()) {
-			Chicken chicken = new Chicken(player);
+		if (player.isCompleteDelivery()) {
 			totalSales += chicken.getCHICKEN_PRICE();
 		}
 
 	}
 
-	@Override
-	public String toString() {
-		return "총 매출 : " + totalSales;
+	public int getTotalSales() {
+		return totalSales;
+	}
+
+	public void setTotalSales(int totalSales) {
+		this.totalSales = totalSales;
+	}
+
+	public void setGoalSales(int goalSales) {
+		this.goalSales = goalSales;
+	}
+
+	public int getGoalSales() {
+		Random rd = new Random();
+		int goalSales = (rd.nextInt(10) + 1) * 10000;
+		return goalSales;
 	}
 
 }
