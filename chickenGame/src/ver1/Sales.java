@@ -15,7 +15,8 @@ public class Sales {
 		this.player = player;
 		
 		if(player.isCompleteDelivery()) {
-			totalSales += 18000;
+			Chicken chicken = new Chicken(player);
+			totalSales += chicken.getCHICKEN_PRICE();
 		}
 
 	}
