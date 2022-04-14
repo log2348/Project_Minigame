@@ -28,7 +28,6 @@ public class Player extends JLabel implements Moveable {
 	private boolean jumpDownInKit;
 	private boolean jumpUpInDel;
 	private boolean jumpDownInDel;
-	
 
 	// 플레이어 속도 상태
 	private final int SPEED = 4;
@@ -48,7 +47,9 @@ public class Player extends JLabel implements Moveable {
 
 	private ImageIcon delPlayerL; // 배달맵에서의 왼쪽모습
 	private ImageIcon delPlayerR;// 배달맵에서의 오른쪽모습
-	// 배달맵에서는 앞모습뒷모습 둘 다 없음
+	Thread serviceThread;
+	BackgroundMapServiceFrame1 serviceFrame1;
+	BackgroundMapServiceFrame2 serviceFrame2;
 
 	// TODO 나중에 객체랑 상호작용해주는 부분 구현필요할 듯
 	// 예를들어 벽에 충돌한 상태
@@ -81,7 +82,8 @@ public class Player extends JLabel implements Moveable {
 
 		delPlayerL = new ImageIcon("images/LoopyDel_left.png");
 		delPlayerR = new ImageIcon("images/LoopyKit_right.png");
-
+		serviceFrame1 = new BackgroundMapServiceFrame1(this);
+		serviceFrame2 = new BackgroundMapServiceFrame2(this);
 	}
 
 	private void initSetting() {
@@ -106,13 +108,20 @@ public class Player extends JLabel implements Moveable {
 		setIcon(kitPlayerF);
 		setSize(55, 80); // 사이즈 통일
 		setLocation(x, y);
-//		setBackground(new Color(0, 0, 0, 122));
-//		setVisible(true);
 
 	}
 
 	private void initBackgroundPlayerService() {
-		new Thread(new BackgroundMapServiceFrame(this)).start();
+		if (BackgroundMapFrame.flag== 1) { // 기본 키친맵
+			serviceThread = new Thread(serviceFrame1);
+
+			serviceThread.start();
+
+		} else { // 주방맵
+			serviceThread = new Thread(serviceFrame2);
+			serviceThread.start();
+		}
+
 	}
 
 	@Override
@@ -130,11 +139,10 @@ public class Player extends JLabel implements Moveable {
 					try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				
+
 			}
 		}).start();
 	}
@@ -244,12 +252,12 @@ public class Player extends JLabel implements Moveable {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				while (jumpDownInKit) {
+				for (int i = 0; i < 120 / JUMPSPEED; i++) {
 					y = y + JUMPSPEED;
 					setLocation(x, y);
 					try {
-						Thread.sleep(3);
-					} catch (Exception e) {
+						Thread.sleep(5);
+					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 
@@ -262,13 +270,52 @@ public class Player extends JLabel implements Moveable {
 
 	@Override
 	public void jumpUpInDel() {
-		// TODO Auto-generated method stub
+
+		System.out.println("jumpUp");
+		jumpUpInDel = true;
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				for (int i = 0; i < 120 / JUMPSPEED; i++) {
+					y = y - JUMPSPEED;
+					setLocation(x, y);
+					try {
+						Thread.sleep(5);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+
+				}
+				jumpUpInDel = false;
+				jumpDownInDel();
+
+			}
+		}).start();
 
 	}
 
 	@Override
 	public void jumpDownInDel() {
-		// TODO Auto-generated method stub
+
+		System.out.println("jumpDown");
+		jumpDownInDel = true;
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (jumpDownInDel) {
+					y = y + JUMPSPEED;
+					setLocation(x, y);
+					try {
+						Thread.sleep(3);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+				}
+
+				jumpDownInDel = false;
+			}
+		}).start();
 
 	}
 
