@@ -22,7 +22,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 	// 주방 맵
 	JLabel kitchenMapImg;
 	// 이미지 파일명
-	private String deliveryMapFileName = "images/Map_del.jpg";
+	private String deliveryMapFileName = "images/Map_del.png";
 	private String kitchenMapFileName = "images/Map_kit.jpg";
 
 	public JButton changeDeliveryMapBtn;
@@ -39,14 +39,13 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 	private Player player;
 	
-	private ImageIcon kitPlayerF; // 키친에서의 앞모습
-	// 일단 뒤(Top)으로 갈땐 뒷면말고 left/right모습으로 가기로
-	private ImageIcon kitPlayerL; // 키친에서의 왼쪽모습
-	private ImageIcon kitPlayerR; // 키친에서의 오른쪽모습
+	private ImageIcon kitPlayerF; 
+	private ImageIcon kitPlayerL;
+	private ImageIcon kitPlayerR;
 
-	private ImageIcon delPlayerF; // 배달맵에서의 앞모습
-	private ImageIcon delPlayerL; // 배달맵에서의 왼쪽모습
-	private ImageIcon delPlayerR;// 배달맵에서의 오른쪽모습
+	private ImageIcon delPlayerF;
+	private ImageIcon delPlayerL;
+	private ImageIcon delPlayerR;
 
 
 	public BackgroundMapFrame() {
@@ -101,12 +100,10 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 		kitchenMapImg.add(totalSalesLabel);
 		kitchenMapImg.add(goalSalesLabel);
-		deliveryMapImg.add(totalSalesLabel);
-		deliveryMapImg.add(goalSalesLabel);
 
-		totalSalesLabel.setBounds(450, 20, 200, 50);
+		totalSalesLabel.setBounds(800, 700, 200, 50);
 
-		goalSalesLabel.setBounds(450, 40, 200, 50);
+		goalSalesLabel.setBounds(800, 720, 200, 50);
 
 		kitchenMapImg.add(player);
 
@@ -221,6 +218,9 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 			setContentPane(deliveryMapImg);
 			deliveryMapImg.add(player);
 			deliveryMapImg.updateUI();
+			
+			deliveryMapImg.add(totalSalesLabel);
+			deliveryMapImg.add(goalSalesLabel);
 
 			player.setX(28);
 			player.setY(690);
@@ -232,11 +232,15 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 			player.backgroundDeliveryService.deliveryServiceOn = true;
 			player.backgroundKitchenService.kitchenServiceOn = false;
 			new Thread(player.backgroundDeliveryService).start();
+			
 		} else if (changeKitchenMapBtn == targetBtn) {
 			System.out.println("주방으로");
 			setContentPane(kitchenMapImg);
 			kitchenMapImg.add(player);
 			kitchenMapImg.updateUI();
+			
+			kitchenMapImg.add(totalSalesLabel);
+			kitchenMapImg.add(goalSalesLabel);
 
 			player.setX(450);
 			player.setY(700);
