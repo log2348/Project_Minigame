@@ -40,16 +40,20 @@ public class Player extends JLabel implements Moveable {
 	private boolean bottomCrash;
 
 	// 이미지 저장
-	private ImageIcon kitPlayerF; // 키친에서의 앞모습
-	// 일단 뒤(Top)으로 갈땐 뒷면말고 left/right모습으로 가기로
-	private ImageIcon kitPlayerL; // 키친에서의 왼쪽모습
-	private ImageIcon kitPlayerR; // 키친에서의 오른쪽모습
 
-	private ImageIcon delPlayerL; // 배달맵에서의 왼쪽모습
-	private ImageIcon delPlayerR;// 배달맵에서의 오른쪽모습
+//	private ImageIcon kitPlayerF; // 키친에서의 앞모습
+//	// 일단 뒤(Top)으로 갈땐 뒷면말고 left/right모습으로 가기로
+//	private ImageIcon kitPlayerL; // 키친에서의 왼쪽모습
+//	private ImageIcon kitPlayerR; // 키친에서의 오른쪽모습
+//
+//	private ImageIcon delPlayerL; // 배달맵에서의 왼쪽모습
+//	private ImageIcon delPlayerR;// 배달맵에서의 오른쪽모습
 	Thread serviceThread;
 	BackgroundMapServiceFrame serviceFrame;
 
+	private ImageIcon playerIconF;
+	private ImageIcon playerIconL;
+	private ImageIcon playerIconR;
 
 	// TODO 나중에 객체랑 상호작용해주는 부분 구현필요할 듯
 	// 예를들어 벽에 충돌한 상태
@@ -69,26 +73,20 @@ public class Player extends JLabel implements Moveable {
 
 	private void initObject() {
 
-//		 Istead of Image img=new ImageIcon(this.getClass().getResource("/a1.png")).getImage();
-//		 label_1.setIcon(new ImageIcon(img));
-//		 
-//		 why not label_1.setIcon(new ImageIcon(this.getClass().getResource("/a1.png"));
-
-//		this.setIcon(delPlayerR);
-//		
-		kitPlayerF = new ImageIcon("images/LoopyKit_front.png");
-		kitPlayerL = new ImageIcon("images/LoopyKit_left.png");
-		kitPlayerR = new ImageIcon("images/LoopyKit_right.png");
-
-		delPlayerL = new ImageIcon("images/LoopyDel_left.png");
-		delPlayerR = new ImageIcon("images/LoopyKit_right.png");
+//		kitPlayerF = new ImageIcon("images/LoopyKit_front.png");
+//		kitPlayerL = new ImageIcon("images/LoopyKit_left.png");
+//		kitPlayerR = new ImageIcon("images/LoopyKit_right.png");
+//
+//		delPlayerL = new ImageIcon("images/LoopyDel_left.png");
+//		delPlayerR = new ImageIcon("images/LoopyKit_right.png");
 		serviceFrame = new BackgroundMapServiceFrame(this);
 
+//		playerF
 	}
 
 	private void initSetting() {
-		x = 472;
-		y = 300;
+		x = 450;
+		y = 700;
 
 		left = false;
 		right = false;
@@ -105,19 +103,22 @@ public class Player extends JLabel implements Moveable {
 		bottomCrash = false;
 
 		playerWay = PlayerWay.RIGHT;
-		setIcon(kitPlayerF);
+		playerIconF = new ImageIcon("images/LoopyKit_front.png");
+		playerIconL = new ImageIcon("images/LoopyKit_left.png");
+		playerIconR = new ImageIcon("images/LoopyKit_right.png");
+//		playerIconL = null;
+//		playerIconR = null;
+		setIcon(playerIconF);
 		setSize(55, 80); // 사이즈 통일
 		setLocation(x, y);
 
 	}
 
 	private void initBackgroundPlayerService() {
-	
-			serviceThread = new Thread(serviceFrame);
 
-			serviceThread.start();
+		serviceThread = new Thread(serviceFrame);
 
-	
+		serviceThread.start();
 
 	}
 
@@ -130,7 +131,8 @@ public class Player extends JLabel implements Moveable {
 			@Override
 			public void run() {
 				while (left) {
-					setIcon(kitPlayerL);
+					setIcon(playerIconL);
+
 					x = x - SPEED;
 					setLocation(x, y);
 					try {
@@ -154,7 +156,8 @@ public class Player extends JLabel implements Moveable {
 			public void run() {
 
 				while (right) {
-					setIcon(kitPlayerR);
+//					setIcon(kitPlayerR);
+					setIcon(playerIconR);
 					x = x + SPEED;
 					setLocation(x, y);
 
@@ -201,7 +204,8 @@ public class Player extends JLabel implements Moveable {
 			@Override
 			public void run() {
 				while (down) {
-					setIcon(kitPlayerF);
+//					setIcon(kitPlayerF);
+					setIcon(playerIconF);
 					y = y + SPEED;
 					setLocation(x, y);
 					try {
@@ -299,12 +303,12 @@ public class Player extends JLabel implements Moveable {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				while (jumpDownInDel) {
+				while(jumpDownInDel) {
 					y = y + JUMPSPEED;
 					setLocation(x, y);
 					try {
-						Thread.sleep(3);
-					} catch (Exception e) {
+						Thread.sleep(5);
+					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 
