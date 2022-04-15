@@ -11,11 +11,16 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class BackgroundMapFrame extends JFrame implements ActionListener {
 	// 배달 맵
-	private JLabel deliveryMapImg;
+	JLabel deliveryMapImg;
 	// 주방 맵
-	private JLabel kitchenMapImg;
+	JLabel kitchenMapImg;
 	// 이미지 파일명
 	private String deliveryMapFileName = "images/Map_del.jpg";
 	private String kitchenMapFileName = "images/Map_kit.jpg";
@@ -28,17 +33,24 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 	private JLabel totalSalesLabel;
 	private JLabel goalSalesLabel;
 
+	// 맵 구분
+	private boolean kitchenMapFlag;
+	private boolean deliveryMapFlag;
+
+	private Thread backgroundThread;
+
 	private Player player;
 
 	public BackgroundMapFrame() {
 		initData();
 		setInitLayout();
 		addEventListener();
+
 	}
 
 	private void initData() {
 		setTitle("치킨배달 게임");
-		setSize(1000, 800);
+		setSize(1000, 830);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		kitchenMapImg = new JLabel(new ImageIcon(kitchenMapFileName));
@@ -49,13 +61,15 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 		changeDeliveryMapBtn.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		changeKitchenMapBtn.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-		
+
 		sales = new Sales();
 		player = Player.getInstance();
 
 		totalSalesLabel = new JLabel("총 매출 : " + sales.getTotalSales());
 		goalSalesLabel = new JLabel("목표 매출 : " + sales.getGoalSales());
 
+		kitchenMapFlag = true;
+		deliveryMapFlag = false;
 
 	}
 
@@ -73,10 +87,10 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		kitchenMapImg.add(goalSalesLabel);
 		deliveryMapImg.add(totalSalesLabel);
 		deliveryMapImg.add(goalSalesLabel);
-		
-		totalSalesLabel.setBounds(450, 5, 200, 50);
-		
-		goalSalesLabel.setBounds(450, 25, 200, 50);
+
+		totalSalesLabel.setBounds(450, 20, 200, 50);
+
+		goalSalesLabel.setBounds(450, 40, 200, 50);
 
 		kitchenMapImg.add(player);
 
@@ -99,12 +113,12 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
 					player.setIcon(player.getKitPlayerL());
-					System.out.println("---");
 					System.out.println(e.getKeyCode());
 					if (!player.isLeft() && !player.isLeftWallCrash()) {
 						player.left();
 					}
 					break;
+
 				case KeyEvent.VK_RIGHT:
 					player.setIcon(player.getKitPlayerR());
 					if (!player.isRight() && !player.isRightWallCrash()) {
@@ -123,21 +137,24 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 						player.down();
 					}
 					break;
+
 				case KeyEvent.VK_SPACE:
-					// 만약 kit이면 jumpUpInKit
-					// del이면 jumpUpInDel
-					if (!player.isJumpUpInKit() && !player.isJumpDownInKit()) {
+					if (getContentPane() == kitchenMapImg) {
+						if (!player.isJumpUpInKit() && !player.isJumpDownInKit()) {
+							System.out.println("space 점프 in kit");
+							player.jumpUpInKit();
+						}
 
-						System.out.println("space 점프 in kit");
-						player.jumpUpInKit();
+					} else {
+						if (!player.isJumpUpInDel() && !player.isJumpDownInDel()) {
+							System.out.println("space 점프 in del");
+							player.jumpUpInDel();
+						}
 					}
-
 					break;
 
 				case 71: // 상호작용 G키
 					System.out.println("G 상호작용");
-					break;
-				default:
 					break;
 
 				} // end of switch
@@ -163,8 +180,6 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 					break;
 				case 71: // G 상호작용
 					break;
-				default:
-					break;
 				}
 			}
 		});
@@ -182,11 +197,25 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 			setContentPane(deliveryMapImg);
 			deliveryMapImg.add(player);
 			deliveryMapImg.updateUI();
+
+			player.setX(500);
+			player.setY(500);
+			player.setPlayerF(player.getDelPlayerF());
+			player.setPlayerL(player.getDelPlayerL());
+			player.setPlayerR(player.getDelPlayerR());
+
 		} else if (changeKitchenMapBtn == targetBtn) {
 			System.out.println("주방으로");
 			setContentPane(kitchenMapImg);
 			kitchenMapImg.add(player);
 			kitchenMapImg.updateUI();
+
+			player.setX(450);
+			player.setY(700);
+			player.setPlayerF(player.getKitPlayerF());
+			player.setPlayerL(player.getKitPlayerL());
+			player.setPlayerR(player.getKitPlayerR());
+
 		}
 
 		repaint();
