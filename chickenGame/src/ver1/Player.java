@@ -37,17 +37,13 @@ public class Player extends JLabel implements Moveable {
 	private boolean TopCrash;
 	private boolean bottomCrash;
 	
-	private ImageIcon playerF;
-	private ImageIcon playerL;
-	private ImageIcon playerR;
-	
-	private ImageIcon kitPlayerF;
-	private ImageIcon kitPlayerL;
-	private ImageIcon kitPlayerR;
+	private ImageIcon playerIconF;
+	private ImageIcon playerIconL;
+	private ImageIcon playerIconR;
 
-	private ImageIcon delPlayerF;
-	private ImageIcon delPlayerL;
-	private ImageIcon delPlayerR;
+	
+	BackgroundDeliveryServiceFrame backgroundDeliveryService;
+	BackgroundKitchenServiceFrame backgroundKitchenService;
 
 	private Player() {
 		initSetting();
@@ -80,27 +76,27 @@ public class Player extends JLabel implements Moveable {
 		bottomCrash = false;
 
 		playerWay = PlayerWay.RIGHT;
-		kitPlayerF = new ImageIcon("images/LoopyKit_front.png");
-		kitPlayerL = new ImageIcon("images/LoopyKit_left.png");
-		kitPlayerR = new ImageIcon("images/LoopyKit_right.png");
-
-		delPlayerF = new ImageIcon("images/LoopyDel_front.png");
-		delPlayerL = new ImageIcon("images/LoopyDel_left.png");
-		delPlayerR = new ImageIcon("images/LoopyDel_right.png");
 		
-		playerF = kitPlayerF;
-		playerL = kitPlayerL;
-		playerR = kitPlayerR;
+		playerIconF = new ImageIcon("images/LoopyKit_front.png");
+		playerIconL = new ImageIcon("images/LoopyKit_left.png");
+		playerIconR = new ImageIcon("images/LoopyKit_right.png");
 
-		setIcon(kitPlayerF);
+		setIcon(playerIconF);
 		setSize(55, 80);
 		setLocation(x, y);
+		
+		backgroundDeliveryService = new BackgroundDeliveryServiceFrame(this);
+		backgroundKitchenService = new BackgroundKitchenServiceFrame(this);
 
 	}
 
 	private void initBackgroundPlayerService() {
+		
+		new Thread(backgroundKitchenService).start();
 
-		new Thread(new BackgroundDeliveryServiceFrame(this)).start();
+//		backgroundService.run();
+		
+//		new Thread(new BackgroundDeliveryServiceFrame(this)).start();
 
 	}
 
@@ -113,7 +109,7 @@ public class Player extends JLabel implements Moveable {
 			@Override
 			public void run() {
 				while (left) {
-					setIcon(playerL);
+					setIcon(playerIconL);
 
 					x = x - SPEED;
 					setLocation(x, y);
@@ -138,7 +134,7 @@ public class Player extends JLabel implements Moveable {
 			public void run() {
 
 				while (right) {
-					setIcon(playerR);
+					setIcon(playerIconR);
 					x = x + SPEED;
 					setLocation(x, y);
 
@@ -185,7 +181,7 @@ public class Player extends JLabel implements Moveable {
 			@Override
 			public void run() {
 				while (down) {
-					setIcon(playerF);
+					setIcon(playerIconF);
 					y = y + SPEED;
 					setLocation(x, y);
 					try {

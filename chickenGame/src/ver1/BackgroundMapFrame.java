@@ -37,9 +37,17 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 	private boolean kitchenMapFlag;
 	private boolean deliveryMapFlag;
 
-	private Thread backgroundThread;
-
 	private Player player;
+	
+	private ImageIcon kitPlayerF; // 키친에서의 앞모습
+	// 일단 뒤(Top)으로 갈땐 뒷면말고 left/right모습으로 가기로
+	private ImageIcon kitPlayerL; // 키친에서의 왼쪽모습
+	private ImageIcon kitPlayerR; // 키친에서의 오른쪽모습
+
+	private ImageIcon delPlayerF; // 배달맵에서의 앞모습
+	private ImageIcon delPlayerL; // 배달맵에서의 왼쪽모습
+	private ImageIcon delPlayerR;// 배달맵에서의 오른쪽모습
+
 
 	public BackgroundMapFrame() {
 		initData();
@@ -68,8 +76,16 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		totalSalesLabel = new JLabel("총 매출 : " + sales.getTotalSales());
 		goalSalesLabel = new JLabel("목표 매출 : " + sales.getGoalSales());
 
-		kitchenMapFlag = true;
-		deliveryMapFlag = false;
+		player.backgroundDeliveryService.deliveryServiceOn = false;
+		player.backgroundKitchenService.kitchenServiceOn = true;
+		
+		kitPlayerF = new ImageIcon("images/LoopyKit_front.png");
+		kitPlayerL = new ImageIcon("images/LoopyKit_left.png");
+		kitPlayerR = new ImageIcon("images/LoopyKit_right.png");
+
+		delPlayerF = new ImageIcon("images/LoopyDel_front.png");
+		delPlayerL = new ImageIcon("images/LoopyDel_left.png");
+		delPlayerR = new ImageIcon("images/LoopyDel_right.png");
 
 	}
 
@@ -112,7 +128,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
-					player.setIcon(player.getKitPlayerL());
+					player.setIcon(player.getPlayerIconL());
 					System.out.println(e.getKeyCode());
 					if (!player.isLeft() && !player.isLeftWallCrash()) {
 						player.left();
@@ -120,23 +136,27 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 					break;
 
 				case KeyEvent.VK_RIGHT:
-					player.setIcon(player.getKitPlayerR());
+					player.setIcon(player.getPlayerIconR());
 					if (!player.isRight() && !player.isRightWallCrash()) {
 						player.right();
 					}
 					break;
 
 				case KeyEvent.VK_UP:
-					if (!player.isUp() && !player.isTopCrash()) {
-						player.up();
-					}
-					break;
+                    if (getContentPane() == kitchenMapImg) {
+                        if (!player.isUp() && !player.isTopCrash()) {
+                            player.up();
+                        }
+                    }
+                    break;
 
-				case KeyEvent.VK_DOWN:
-					if (!player.isDown() && !player.isBottomCrash()) {
-						player.down();
-					}
-					break;
+                case KeyEvent.VK_DOWN:
+                    if (getContentPane() == kitchenMapImg) {
+                        if (!player.isDown() && !player.isBottomCrash()) {
+                            player.down();
+                        }
+                    }
+                    break;
 
 				case KeyEvent.VK_SPACE:
 					if (getContentPane() == kitchenMapImg) {
@@ -178,8 +198,11 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 					break;
 				case KeyEvent.VK_SPACE:
 					break;
-				case 71: // G 상호작용
-					break;
+				case KeyEvent.VK_G: // 상호작용 G키
+                    System.out.println("G 상호작용");
+                    Chicken chicken = new Chicken(player);
+                    add(chicken);
+                    break;
 				}
 			}
 		});
@@ -193,17 +216,22 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		JButton targetBtn = (JButton) e.getSource();
 
 		if (changeDeliveryMapBtn == targetBtn) {
+			
 			System.out.println("신속배달");
 			setContentPane(deliveryMapImg);
 			deliveryMapImg.add(player);
 			deliveryMapImg.updateUI();
 
-			player.setX(500);
-			player.setY(500);
-			player.setPlayerF(player.getDelPlayerF());
-			player.setPlayerL(player.getDelPlayerL());
-			player.setPlayerR(player.getDelPlayerR());
+			player.setX(28);
+			player.setY(690);
+			player.setIcon(delPlayerR);
+			player.setPlayerIconF(delPlayerF);
+			player.setPlayerIconL(delPlayerL);
+			player.setPlayerIconR(delPlayerR);
 
+			player.backgroundDeliveryService.deliveryServiceOn = true;
+			player.backgroundKitchenService.kitchenServiceOn = false;
+			new Thread(player.backgroundDeliveryService).start();
 		} else if (changeKitchenMapBtn == targetBtn) {
 			System.out.println("주방으로");
 			setContentPane(kitchenMapImg);
@@ -212,10 +240,14 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 			player.setX(450);
 			player.setY(700);
-			player.setPlayerF(player.getKitPlayerF());
-			player.setPlayerL(player.getKitPlayerL());
-			player.setPlayerR(player.getKitPlayerR());
-
+			player.setIcon(kitPlayerR);
+			player.setPlayerIconF(kitPlayerF);
+			player.setPlayerIconL(kitPlayerL);
+			player.setPlayerIconR(kitPlayerR);
+			
+			player.backgroundKitchenService.kitchenServiceOn = true;
+			player.backgroundDeliveryService.deliveryServiceOn = false;
+			new Thread(player.backgroundKitchenService).start();
 		}
 
 		repaint();

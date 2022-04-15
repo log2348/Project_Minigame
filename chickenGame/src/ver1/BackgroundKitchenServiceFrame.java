@@ -12,9 +12,12 @@ public class BackgroundKitchenServiceFrame implements Runnable {
 	private BufferedImage kitchenServiceImg;
 
 	private Player player;
+	
+	boolean kitchenServiceOn;
 
 	public BackgroundKitchenServiceFrame(Player player) {
 		this.player = player;
+		kitchenServiceOn = true;
 		try {
 			kitchenServiceImg = ImageIO.read(new File("images/Map_kitService.jpg"));
 		} catch (IOException e) {
@@ -25,10 +28,10 @@ public class BackgroundKitchenServiceFrame implements Runnable {
 	@Override
 	public void run() {
 
-		while (true) {
+		while (kitchenServiceOn) {
 
 			try {
-
+				System.out.println("키친 백그라운드 진행중");
 				Color leftColor = new Color(kitchenServiceImg.getRGB(player.getX() + 10, player.getY() + 40));
 				int leftColorInt = kitchenServiceImg.getRGB(player.getX() + 10, player.getY() + 40);
 

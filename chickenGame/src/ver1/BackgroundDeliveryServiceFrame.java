@@ -13,9 +13,11 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 
 	private Player player;
 
+	boolean deliveryServiceOn;
+
 	public BackgroundDeliveryServiceFrame(Player player) {
 		this.player = player;
-
+		deliveryServiceOn = true;
 		try {
 			deliveryServiceImg = ImageIO.read(new File("images/Map_delServiceRed.jpg"));
 		} catch (IOException e) {
@@ -27,8 +29,8 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 	@Override
 	public void run() {
 
-		while (true) {
-
+		while (deliveryServiceOn) {
+			System.out.println("딜리버리 백그라운드 진행중");
 			try {
 				Color leftColor = new Color(deliveryServiceImg.getRGB(player.getX() + 10, player.getY() + 40));
 				Color rightColor = new Color(deliveryServiceImg.getRGB(player.getX(), player.getY() + 40));
