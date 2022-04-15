@@ -61,14 +61,14 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 					player.setRightWallCrash(false);
 				}
 
-				if (bottomColorInt != -2) { // 바닥흰색배경 아니면
+				if (bottomColorInt != -2) { // 바닥 흰색 아니면
 
 					System.out.println("바닥과 닿았어");
 					player.setBottomCrash(true);
 					player.setDown(false);
 					player.setJumpDownInKit(false);
 
-				} else if (topColorInt != -2) { // 천장흰색아니면
+				} else if (topColorInt != -2) { // 천장 흰색 아니면
 					System.out.println("천장과 닿았어");
 					player.setTopCrash(true);
 					player.setUp(false);
@@ -78,9 +78,9 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 					player.setTopCrash(false);
 					player.setBottomCrash(false);
 				}
-
 				
 				// TODO 배달완료 코드
+				
 
 			} catch (Exception e) {
 				System.out.println("백그라운드 배달 맵 오류");

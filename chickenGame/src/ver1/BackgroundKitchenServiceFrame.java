@@ -29,14 +29,12 @@ public class BackgroundKitchenServiceFrame implements Runnable {
 	public void run() {
 
 		while (kitchenServiceOn) {
-
+			System.out.println("키친 백그라운드 진행중");
 			try {
-				System.out.println("키친 백그라운드 진행중");
 				Color leftColor = new Color(kitchenServiceImg.getRGB(player.getX() + 10, player.getY() + 40));
 				int leftColorInt = kitchenServiceImg.getRGB(player.getX() + 10, player.getY() + 40);
 
-				Color rightColor = new Color(
-						kitchenServiceImg.getRGB(player.getX() + player.getWidth(), player.getY() + 40));
+				Color rightColor = new Color(kitchenServiceImg.getRGB(player.getX() + player.getWidth(), player.getY() + 40));
 				int rightColorInt = kitchenServiceImg.getRGB(player.getX() + player.getWidth(), player.getY() + 40);
 
 				int topColorInt = kitchenServiceImg.getRGB(player.getX() + 20, player.getY())
