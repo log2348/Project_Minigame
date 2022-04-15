@@ -164,6 +164,11 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 						}
 					}
 					break;
+				case KeyEvent.VK_G: // 상호작용 G키
+                    System.out.println("G 상호작용");
+                    Chicken chicken = new Chicken(player);
+                    add(chicken);
+                    break;
 
 				} // end of switch
 			} // end of keyPressed
@@ -184,11 +189,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 				case KeyEvent.VK_DOWN:
 					player.setDown(false);
 					break;
-				case KeyEvent.VK_G: // 상호작용 G키
-                    System.out.println("G 상호작용");
-                    Chicken chicken = new Chicken(player);
-                    add(chicken);
-                    break;
+				
 				}
 			}
 		});
