@@ -48,8 +48,8 @@ public class Player extends JLabel implements Moveable {
 	private ImageIcon delPlayerL; // 배달맵에서의 왼쪽모습
 	private ImageIcon delPlayerR;// 배달맵에서의 오른쪽모습
 	Thread serviceThread;
-	BackgroundMapServiceFrame1 serviceFrame1;
-	BackgroundMapServiceFrame2 serviceFrame2;
+	BackgroundMapServiceFrame serviceFrame;
+
 
 	// TODO 나중에 객체랑 상호작용해주는 부분 구현필요할 듯
 	// 예를들어 벽에 충돌한 상태
@@ -82,8 +82,8 @@ public class Player extends JLabel implements Moveable {
 
 		delPlayerL = new ImageIcon("images/LoopyDel_left.png");
 		delPlayerR = new ImageIcon("images/LoopyKit_right.png");
-		serviceFrame1 = new BackgroundMapServiceFrame1(this);
-		serviceFrame2 = new BackgroundMapServiceFrame2(this);
+		serviceFrame = new BackgroundMapServiceFrame(this);
+
 	}
 
 	private void initSetting() {
@@ -112,15 +112,12 @@ public class Player extends JLabel implements Moveable {
 	}
 
 	private void initBackgroundPlayerService() {
-		if (BackgroundMapFrame.flag== 1) { // 기본 키친맵
-			serviceThread = new Thread(serviceFrame1);
+	
+			serviceThread = new Thread(serviceFrame);
 
 			serviceThread.start();
 
-		} else { // 주방맵
-			serviceThread = new Thread(serviceFrame2);
-			serviceThread.start();
-		}
+	
 
 	}
 

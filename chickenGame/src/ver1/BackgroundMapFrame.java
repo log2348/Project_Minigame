@@ -20,8 +20,8 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 	private String deliveryMapFileName = "images/Map_del.jpg";
 	private String kitchenMapFileName = "images/Map_kit.jpg";
 
-	private JButton changeDeliveryMapBtn;
-	private JButton changeKitchenMapBtn;
+	public JButton changeDeliveryMapBtn;
+	public JButton changeKitchenMapBtn;
 
 	private Sales sales;
 
@@ -56,14 +56,15 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		totalSalesLabel = new JLabel("총 매출 : " + sales.getTotalSales());
 		goalSalesLabel = new JLabel("목표 매출 : " + sales.getGoalSales());
 
+
 	}
 
 	private void setInitLayout() {
 		setLayout(null);
 		setLocationRelativeTo(null);
 
-		changeDeliveryMapBtn.setBounds(850, 700, 100, 40);
-		changeKitchenMapBtn.setBounds(850, 700, 100, 40);
+		changeDeliveryMapBtn.setBounds(800, 650, 100, 40);
+		changeKitchenMapBtn.setBounds(800, 650, 100, 40);
 
 		kitchenMapImg.add(changeDeliveryMapBtn);
 		deliveryMapImg.add(changeKitchenMapBtn);
@@ -74,10 +75,8 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		deliveryMapImg.add(goalSalesLabel);
 		
 		totalSalesLabel.setBounds(450, 5, 200, 50);
-//		totalSalesLabel.setPreferredSize(new Dimension(400, 400));
 		
 		goalSalesLabel.setBounds(450, 25, 200, 50);
-//		goalSalesLabel.setPreferredSize(new Dimension(400, 400));
 
 		kitchenMapImg.add(player);
 
@@ -97,22 +96,17 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 			@Override
 			public void keyPressed(KeyEvent e) {
 
-
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
-					
+					player.setIcon(player.getKitPlayerL());
 					System.out.println("---");
 					System.out.println(e.getKeyCode());
-					System.out.println("천장crash"+player.isTopCrash());
-					System.out.println("바닥crash"+player.isBottomCrash());
-					System.out.println("왼쪽crash"+player.isLeftWallCrash());
-					System.out.println("오른쪽crash"+player.isRightWallCrash());
-					
 					if (!player.isLeft() && !player.isLeftWallCrash()) {
 						player.left();
 					}
 					break;
 				case KeyEvent.VK_RIGHT:
+					player.setIcon(player.getKitPlayerR());
 					if (!player.isRight() && !player.isRightWallCrash()) {
 						player.right();
 					}
@@ -130,8 +124,11 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 					}
 					break;
 				case KeyEvent.VK_SPACE:
+					// 만약 kit이면 jumpUpInKit
+					// del이면 jumpUpInDel
 					if (!player.isJumpUpInKit() && !player.isJumpDownInKit()) {
-					System.out.println("space 점프 in kit");
+
+						System.out.println("space 점프 in kit");
 						player.jumpUpInKit();
 					}
 

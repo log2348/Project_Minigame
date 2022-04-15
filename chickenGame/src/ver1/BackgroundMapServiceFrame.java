@@ -1,54 +1,54 @@
 package ver1;
 
-//플레이어 만들 때!~!!!!!!
-//객체 이곳저곳에서 
-//만들x
-//
-//인스턴스주소값 1개여야함.
-//싱글톤패턴으로 설계하기
-
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 
-public class BackgroundMapServiceFrame implements Runnable {
+public class BackgroundMapServiceFrame implements Runnable, ActionListener {
+	
+	private BackgroundMapFrame context;
 
-	private BufferedImage serviceImg;
+	private BufferedImage kitchenServiceImg;
+	private BufferedImage deliveryServiceImg;
 	private Player player;
 
 	public BackgroundMapServiceFrame(Player player) {
 		this.player = player;
-		try {
-			serviceImg = ImageIO.read(new File("images/Map_kitService.jpg"));
 
+		try {
+			kitchenServiceImg = ImageIO.read(new File("images/Map_kitService.jpg"));
+			deliveryServiceImg = ImageIO.read(new File("images/Map_delService.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-	} // end of 생성자
+	}
 
 	@Override
-	public void run() { // class가 Runnable이라서 자동 override
-		// 색상 확인
-		while (true) { // 무한루프
+	public void run() {	
 
+		// 색상 확인
+		while (true) {
 			int pWidth = player.getWidth();
 			int pHeight = player.getHeight();
 
-			Color leftColor = new Color(serviceImg.getRGB(player.getX() + 10, player.getY() + 40));
-			int leftColorInt = serviceImg.getRGB(player.getX() + 10, player.getY() + 40);
+			Color leftColor = new Color(kitchenServiceImg.getRGB(player.getX() + 10, player.getY() + 40));
+			int leftColorInt = kitchenServiceImg.getRGB(player.getX() + 10, player.getY() + 40);
 
-			Color rightColor = new Color(serviceImg.getRGB(player.getX() + pWidth, player.getY() + 40));
-			int rightColorInt = serviceImg.getRGB(player.getX() + pWidth, player.getY() + 40);
+			Color rightColor = new Color(kitchenServiceImg.getRGB(player.getX() + pWidth, player.getY() + 40));
+			int rightColorInt = kitchenServiceImg.getRGB(player.getX() + pWidth, player.getY() + 40);
 
-			int topColorInt = serviceImg.getRGB(player.getX() + 20, player.getY())
-					+ serviceImg.getRGB(player.getX() + 55 - 20, player.getY());
+			int topColorInt = kitchenServiceImg.getRGB(player.getX() + 20, player.getY())
+					+ kitchenServiceImg.getRGB(player.getX() + 55 - 20, player.getY());
 
-			int bottomColorInt = serviceImg.getRGB(player.getX() + 20, player.getY() + pHeight - 13)
-					+ serviceImg.getRGB(player.getX() + 55 - 20, player.getY() + pHeight - 13);
+			int bottomColorInt = kitchenServiceImg.getRGB(player.getX() + 20, player.getY() + pHeight - 13)
+					+ kitchenServiceImg.getRGB(player.getX() + 55 - 20, player.getY() + pHeight - 13);
 
 			// 외벽 및 바닥충돌
 			System.out.println("===========================");
@@ -101,14 +101,27 @@ public class BackgroundMapServiceFrame implements Runnable {
 			}
 
 			try {
-				Thread.sleep(1);// thread가 길면.. check해야하는애가 기다리고 있어서 컬러값 check못하고 떨어짐
-				// 캐릭터가 이동될 때 color값을 못찾는 경우가 있다.
-				// 이동속도보다 더 빠르게 움직여야 해결 가능.
+				Thread.sleep(1);
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		} // end of while
 
 	} // end of run()
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton targetBtn = (JButton) e.getSource();
+
+		if (context.changeDeliveryMapBtn == targetBtn) {
+			System.out.println("신속배달");
+
+		} else if (context.changeKitchenMapBtn == targetBtn) {
+			System.out.println("주방으로");
+
+		}
+
+	}
 
 } // end of class
