@@ -34,8 +34,8 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 	private JLabel goalSalesLabel;
 
 	private Player player;
-	
-	private ImageIcon kitPlayerF; 
+
+	private ImageIcon kitPlayerF;
 	private ImageIcon kitPlayerL;
 	private ImageIcon kitPlayerR;
 
@@ -72,7 +72,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 		player.backgroundDeliveryService.deliveryServiceOn = false;
 		player.backgroundKitchenService.kitchenServiceOn = true;
-		
+
 		kitPlayerF = new ImageIcon("images/LoopyKit_front.png");
 		kitPlayerL = new ImageIcon("images/LoopyKit_left.png");
 		kitPlayerR = new ImageIcon("images/LoopyKit_right.png");
@@ -121,54 +121,81 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
 					player.setIcon(player.getPlayerIconL());
-					System.out.println(e.getKeyCode());
-					if (!player.isLeft() && !player.isLeftWallCrash()) {
-						player.left();
-					}
-					break;
 
+					if (getContentPane() == kitchenMapImg) { // 키친맵인경우
+						if (!player.isLeft() && !player.isLeftWallCrash()) {
+							player.left();
+						}
+
+					} else { // 배달맵인경우
+						if (!player.isLeft() && !player.isLeftWallCrash()) {
+							player.left();
+						}
+
+					}
+
+					break;
 				case KeyEvent.VK_RIGHT:
 					player.setIcon(player.getPlayerIconR());
-					if (!player.isRight() && !player.isRightWallCrash()) {
-						player.right();
+
+					if (getContentPane() == kitchenMapImg) { // 키친맵인경우
+						if (!player.isRight() && !player.isRightWallCrash()) {
+							player.right();
+						}
+
+					} else { // 배달맵인경우
+						if (!player.isRight() && !player.isRightWallCrash()) {
+							player.right();
+						}
+
+//						player.jumpDownInDel();
 					}
+
 					break;
 
 				case KeyEvent.VK_UP:
-                    if (getContentPane() == kitchenMapImg) {
-                        if (!player.isUp() && !player.isTopCrash()) {
-                            player.up();
-                        }
-                    }
-                    break;
+					if (getContentPane() == kitchenMapImg) {
+						if (!player.isUp() && !player.isTopCrash()) {
+							player.up();
+						}
+					}
+					break;
 
-                case KeyEvent.VK_DOWN:
-                    if (getContentPane() == kitchenMapImg) {
-                        if (!player.isDown() && !player.isBottomCrash()) {
-                            player.down();
-                        }
-                    }
-                    break;
-
+				case KeyEvent.VK_DOWN:
+					if (getContentPane() == kitchenMapImg) {
+						if (!player.isDown() && !player.isBottomCrash()) {
+							player.down();
+						}
+					}
+					break;
 				case KeyEvent.VK_SPACE:
+
+					// 만약 kit이면 jumpUpInKit
+					// del이면 jumpUpInDel
 					if (getContentPane() == kitchenMapImg) {
 						if (!player.isJumpUpInKit() && !player.isJumpDownInKit()) {
+
 							System.out.println("space 점프 in kit");
 							player.jumpUpInKit();
 						}
 
 					} else {
 						if (!player.isJumpUpInDel() && !player.isJumpDownInDel()) {
+
 							System.out.println("space 점프 in del");
 							player.jumpUpInDel();
 						}
 					}
+
 					break;
+
 				case KeyEvent.VK_G: // 상호작용 G키
-                    System.out.println("G 상호작용");
-                    Chicken chicken = new Chicken(player);
-                    add(chicken);
-                    break;
+					System.out.println("G 상호작용");
+					Chicken chicken = new Chicken(player);
+					add(chicken);
+					break;
+				default:
+					break;
 
 				} // end of switch
 			} // end of keyPressed
@@ -189,7 +216,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 				case KeyEvent.VK_DOWN:
 					player.setDown(false);
 					break;
-				
+
 				}
 			}
 		});
@@ -203,12 +230,12 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		JButton targetBtn = (JButton) e.getSource();
 
 		if (changeDeliveryMapBtn == targetBtn) {
-			
+
 			System.out.println("신속배달");
 			setContentPane(deliveryMapImg);
 			deliveryMapImg.add(player);
 			deliveryMapImg.updateUI();
-			
+
 			deliveryMapImg.add(totalSalesLabel);
 			deliveryMapImg.add(goalSalesLabel);
 
@@ -222,13 +249,13 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 			player.backgroundDeliveryService.deliveryServiceOn = true;
 			player.backgroundKitchenService.kitchenServiceOn = false;
 			new Thread(player.backgroundDeliveryService).start();
-			
+
 		} else if (changeKitchenMapBtn == targetBtn) {
 			System.out.println("주방으로");
 			setContentPane(kitchenMapImg);
 			kitchenMapImg.add(player);
 			kitchenMapImg.updateUI();
-			
+
 			kitchenMapImg.add(totalSalesLabel);
 			kitchenMapImg.add(goalSalesLabel);
 
@@ -238,7 +265,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 			player.setPlayerIconF(kitPlayerF);
 			player.setPlayerIconL(kitPlayerL);
 			player.setPlayerIconR(kitPlayerR);
-			
+
 			player.backgroundKitchenService.kitchenServiceOn = true;
 			player.backgroundDeliveryService.deliveryServiceOn = false;
 			new Thread(player.backgroundKitchenService).start();

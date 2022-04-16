@@ -12,7 +12,7 @@ public class BackgroundKitchenServiceFrame implements Runnable {
 	private BufferedImage kitchenServiceImg;
 
 	private Player player;
-	
+
 	boolean kitchenServiceOn;
 
 	public BackgroundKitchenServiceFrame(Player player) {
@@ -30,63 +30,82 @@ public class BackgroundKitchenServiceFrame implements Runnable {
 
 		while (kitchenServiceOn) {
 			System.out.println("키친 백그라운드 진행중");
-			try {
-				Color leftColor = new Color(kitchenServiceImg.getRGB(player.getX() + 10, player.getY() + 40));
-				int leftColorInt = kitchenServiceImg.getRGB(player.getX() + 10, player.getY() + 40);
 
-				Color rightColor = new Color(kitchenServiceImg.getRGB(player.getX() + player.getWidth(), player.getY() + 40));
-				int rightColorInt = kitchenServiceImg.getRGB(player.getX() + player.getWidth(), player.getY() + 40);
+			Color leftColor = new Color(kitchenServiceImg.getRGB(player.getX() + 10, player.getY() + 40));
+			int leftColorInt = kitchenServiceImg.getRGB(player.getX() + 10, player.getY() + 40);
 
-				int topColorInt = kitchenServiceImg.getRGB(player.getX() + 20, player.getY())
-						+ kitchenServiceImg.getRGB(player.getX() + 55 - 20, player.getY());
+			Color rightColor = new Color(
+					kitchenServiceImg.getRGB(player.getX() + player.getWidth(), player.getY() + 40));
+			int rightColorInt = kitchenServiceImg.getRGB(player.getX() + player.getWidth(), player.getY() + 40);
 
-				int bottomColorInt = kitchenServiceImg.getRGB(player.getX() + 20,
-						player.getY() + player.getHeight() - 13)
-						+ kitchenServiceImg.getRGB(player.getX() + 55 - 20, player.getY() + player.getHeight() - 13);
+			int topColorInt = kitchenServiceImg.getRGB(player.getX() + 20, player.getY())
+					+ kitchenServiceImg.getRGB(player.getX() + 55 - 20, player.getY());
 
-				if (leftColorInt != -1) {
-					System.out.println("왼쪽벽에 충돌했어");
-					player.setLeftWallCrash(true);
-					player.setLeft(false);
+			int bottomColorInt = kitchenServiceImg.getRGB(player.getX() + 20, player.getY() + player.getHeight())
+					+ kitchenServiceImg.getRGB(player.getX() + 55 - 20, player.getY() + player.getHeight());
 
-				} else if (rightColorInt != -1) {
-					System.out.println("오른쪽 벽에 충돌했어");
-					player.setRightWallCrash(true);
-					player.setRight(false);
+			System.out.println("leftColor: " + leftColor);
+			System.out.println("leftColorInt: " + leftColorInt);
+			System.out.println("rightColor: " + rightColor);
+			System.out.println("rightColorInt: " + rightColorInt);
 
-				} else {
-					player.setLeftWallCrash(false);
-					player.setRightWallCrash(false);
-				}
+			System.out.println("bottomColorInt: " + bottomColorInt);
+			System.out.println("topColorInt: " + topColorInt);
+			System.out.println("x: " + player.getX() + " , y: " + player.getY());
 
-				if (bottomColorInt != -2) { // 바닥흰색배경 아니면
+			if (bottomColorInt != -2) { // 바닥흰색배경이 아니면
 
-					System.out.println("바닥과 닿았어");
-					player.setBottomCrash(true);
-					player.setDown(false);
-					player.setJumpDownInKit(false);
+				System.out.println("바닥과 닿았어");
+				player.setBottomCrash(true);
 
-				} else if (topColorInt != -2) { // 천장흰색아니면
-					System.out.println("천장과 닿았어");
-					player.setTopCrash(true);
-					player.setUp(false);
-					player.setJumpUpInKit(false);
+				player.setDown(false);
+				player.setJumpDownInKit(false);
+				player.setJumpDownInDel(false);
 
-				} else {
-					player.setTopCrash(false);
-					player.setBottomCrash(false);
-				}
+			} else { // 바닥이 흰색이면
+				System.out.println("바닥이 흰색이야. 내려가져야해.");
+				player.setBottomCrash(false);
 
-			} catch (Exception e) {
-				System.out.println("백그라운드 키친 오류");
+			}
+
+			if (leftColorInt != -1) {
+				System.out.println("왼쪽벽에 충돌했어");
+				player.setLeftWallCrash(true);
+				player.setLeft(false);
+			} else {
+				player.setLeftWallCrash(false);
+
+			}
+			if (rightColorInt != -1) {
+				System.out.println("오른쪽 벽에 충돌했어");
+				player.setRightWallCrash(true);
+				player.setRight(false);
+
+			} else {
+				player.setRightWallCrash(false);
+			}
+
+			if (topColorInt != -2) { // 천장흰색아니면
+				System.out.println("천장과 닿았어");
+				player.setTopCrash(true);
+				player.setUp(false);
+				player.setJumpUpInKit(false);
+				player.setJumpUpInDel(false);
+
+			} else { // 천장이 흰색 || 바닥이 흰색이면
+				// 떨어져야지
+				// left right중에도...
+				player.setTopCrash(false);
+
 			}
 
 			try {
-				Thread.sleep(3);
+				Thread.sleep(1);
 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+
 		} // end of while
 
 	}
