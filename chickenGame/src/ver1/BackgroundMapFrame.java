@@ -22,7 +22,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 	// 주방 맵
 	JLabel kitchenMapImg;
 	// 이미지 파일명
-	private String deliveryMapFileName = "images/Map_del.png";
+	private String deliveryMapFileName = "images/Map_del.jpg";
 	private String kitchenMapFileName = "images/Map_kit.jpg";
 
 	public JButton changeDeliveryMapBtn;
@@ -133,7 +133,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 						}
 
 					}
-
+					repaint();
 					break;
 				case KeyEvent.VK_RIGHT:
 					player.setIcon(player.getPlayerIconR());
@@ -146,10 +146,12 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 					} else { // 배달맵인경우
 						if (!player.isRight() && !player.isRightWallCrash()) {
 							player.right();
+
 						}
 
 //						player.jumpDownInDel();
 					}
+					repaint();
 
 					break;
 
@@ -159,6 +161,8 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 							player.up();
 						}
 					}
+					repaint();
+
 					break;
 
 				case KeyEvent.VK_DOWN:
@@ -167,6 +171,8 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 							player.down();
 						}
 					}
+					repaint();
+
 					break;
 				case KeyEvent.VK_SPACE:
 
@@ -186,6 +192,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 							player.jumpUpInDel();
 						}
 					}
+					repaint();
 
 					break;
 
@@ -193,6 +200,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 					System.out.println("G 상호작용");
 					Chicken chicken = new Chicken(player);
 					add(chicken);
+					repaint();
 					break;
 				default:
 					break;
@@ -270,8 +278,6 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 			player.backgroundDeliveryService.deliveryServiceOn = false;
 			new Thread(player.backgroundKitchenService).start();
 		}
-
-		repaint();
 		setVisible(true);
 		this.requestFocusInWindow();
 	}

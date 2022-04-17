@@ -19,7 +19,7 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 		this.player = player;
 		deliveryServiceOn = true;
 		try {
-			deliveryServiceImg = ImageIO.read(new File("images/Map_del.png"));
+			deliveryServiceImg = ImageIO.read(new File("images/Map_delService.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -39,12 +39,22 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 					deliveryServiceImg.getRGB(player.getX() + player.getWidth(), player.getY() + 40));
 			int rightColorInt = deliveryServiceImg.getRGB(player.getX() + player.getWidth(), player.getY() + 40);
 
+			Color topColor = new Color(deliveryServiceImg.getRGB(player.getX() + 22, player.getY()));
 			int topColorInt = deliveryServiceImg.getRGB(player.getX() + 20, player.getY())
 					+ deliveryServiceImg.getRGB(player.getX() + 55 - 20, player.getY());
 
 			int bottomColorInt = deliveryServiceImg.getRGB(player.getX() + 20, player.getY() + player.getHeight())
 					+ deliveryServiceImg.getRGB(player.getX() + 55 - 20, player.getY() + player.getHeight());
 
+			System.out.println("leftColor: " + leftColor);
+			System.out.println("leftColorInt: " + leftColorInt);
+			System.out.println("rightColor: " + rightColor);
+			System.out.println("rightColorInt: " + rightColorInt);
+			System.out.println("topColor: " + topColor);
+
+			System.out.println("bottomColorInt: " + bottomColorInt);
+			System.out.println("topColorInt: " + topColorInt);
+			System.out.println("x: " + player.getX() + " , y: " + player.getY());
 			if (bottomColorInt != -2) { // 바닥흰색배경이 아니면
 
 				System.out.println("바닥과 닿았어");
@@ -57,6 +67,9 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 			} else { // 바닥이 흰색이면
 				System.out.println("바닥이 흰색이야. 내려가져야해.");
 				player.setBottomCrash(false);
+				if (!player.isJumpUpInDel() && !player.isJumpDownInDel()) {
+					player.jumpDownInDel();
+				}
 
 			}
 
@@ -77,18 +90,22 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 				player.setRightWallCrash(false);
 			}
 
-			if (topColorInt != -2) { // 천장흰색아니면
-				System.out.println("천장과 닿았어");
-				player.setTopCrash(true);
-				player.setUp(false);
-				player.setJumpUpInKit(false);
-				player.setJumpUpInDel(false);
+			// 일단.. 천장에 색이 보이면 인식을 하고
+			// 천장흰색아니면 -> red이면 TopCrash(o), red아니면 TopCrash(x)
+			if (topColorInt != -2) { // 천장흰색아니면 -> red이면 TopCrash(o), red아니면 TopCrash(x)
+				if ((topColor.getRed() > 200 && topColor.getGreen() < 5 && topColor.getBlue() < 5)) {// red이면
+																										// TopCrash(o)
+					player.setTopCrash(true);
+					player.setUp(false);
+					player.setJumpUpInKit(false);
+					player.setJumpUpInDel(false);
+				} else { // red아니면 TopCrash(x)
+					player.setTopCrash(false);
 
-			} else { // 천장이 흰색 || 바닥이 흰색이면
-				// 떨어져야지
-				// left right중에도...
+				}
+
+			} else { // 흰색이면
 				player.setTopCrash(false);
-
 			}
 
 			try {

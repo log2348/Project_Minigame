@@ -29,8 +29,6 @@ public class BackgroundKitchenServiceFrame implements Runnable {
 	public void run() {
 
 		while (kitchenServiceOn) {
-			System.out.println("키친 백그라운드 진행중");
-
 			Color leftColor = new Color(kitchenServiceImg.getRGB(player.getX() + 10, player.getY() + 40));
 			int leftColorInt = kitchenServiceImg.getRGB(player.getX() + 10, player.getY() + 40);
 
@@ -48,7 +46,6 @@ public class BackgroundKitchenServiceFrame implements Runnable {
 			System.out.println("leftColorInt: " + leftColorInt);
 			System.out.println("rightColor: " + rightColor);
 			System.out.println("rightColorInt: " + rightColorInt);
-
 			System.out.println("bottomColorInt: " + bottomColorInt);
 			System.out.println("topColorInt: " + topColorInt);
 			System.out.println("x: " + player.getX() + " , y: " + player.getY());
@@ -65,6 +62,7 @@ public class BackgroundKitchenServiceFrame implements Runnable {
 			} else { // 바닥이 흰색이면
 				System.out.println("바닥이 흰색이야. 내려가져야해.");
 				player.setBottomCrash(false);
+		
 
 			}
 

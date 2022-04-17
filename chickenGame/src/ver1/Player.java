@@ -30,8 +30,8 @@ public class Player extends JLabel implements Moveable {
 	private boolean jumpDownInDel;
 
 	// 플레이어 속도 상태
-	private final int SPEED = 4;
-	private final int JUMPSPEED = 4;
+	private final int SPEED = 2;
+	private final int JUMPSPEED = 2;
 
 	// 벽에 충돌한 상태
 	private boolean leftWallCrash;
@@ -201,7 +201,7 @@ public class Player extends JLabel implements Moveable {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				for (int i = 0; i < 140 / JUMPSPEED; i++) {
+				for (int i = 0; i < 120 / JUMPSPEED; i++) {
 					y = y - JUMPSPEED;
 					setLocation(x, y);
 					try {
@@ -226,7 +226,7 @@ public class Player extends JLabel implements Moveable {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				for (int i = 0; i < 140 / JUMPSPEED; i++) {
+				for (int i = 0; i < 120 / JUMPSPEED; i++) {
 					y = y + JUMPSPEED;
 					setLocation(x, y);
 					try {
@@ -250,7 +250,7 @@ public class Player extends JLabel implements Moveable {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				for (int i = 0; i < 140 / JUMPSPEED; i++) {
+				for (int i = 0; i < 170 / JUMPSPEED; i++) {
 					y = y - JUMPSPEED;
 					setLocation(x, y);
 					try {
