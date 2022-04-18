@@ -119,10 +119,67 @@ public class Chicken extends JLabel implements Moveable {
 				System.out.println("포장합니다");
 			}
 		} else if (player.getBackgroundDeliveryService().deliveryServiceOn) {
-			if ((x == 418 && y == 42) || (x == 88 && y == 96) || (x == 84 && y == 932)
-					|| ((x == 362 || x == 524) && y == 312) || ((x == 858 || x == 386) && y == 488)) {
+			if ((0 <= x && x < 173) && (0 <= y && y < 181)) {
+				System.out.println("1번집 배달");
+				setIcon(box3);
+				setSize(100, 87);
 				player.setCompleteDelivery(true);
-				System.out.println("배달완료");
+				System.out.println("1번집 배달완료");
+			}
+			if ((0 <= x && x < 141) && (182 <= y && y < 384)) {
+				System.out.println("2번집 배달");
+				setIcon(box3);
+				setSize(100, 87);
+				player.setCompleteDelivery(true);
+				System.out.println("2번집 배달완료");
+			}
+
+			if ((400 <= x && x < 631) && (0 <= y && y < 167)) {
+				System.out.println("3번집 배달");
+				setIcon(box3);
+				setSize(100, 87);
+				player.setCompleteDelivery(true);
+				System.out.println("3번집 배달완료");
+			}
+
+			if ((360 <= x && x < 422) && (240 <= y && y < 400)) {
+				System.out.println("4번집 배달");
+				setIcon(box3);
+				setSize(100, 87);
+				player.setCompleteDelivery(true);
+				System.out.println("4번집 배달완료");
+			}
+
+			if ((356 <= x && x < 487) && (393 <= y && y < 570)) {
+				System.out.println("5번집 배달");
+				setIcon(box3);
+				setSize(100, 87);
+				player.setCompleteDelivery(true);
+				System.out.println("5번집 배달완료");
+			}
+
+			if ((402 <= x && x < 648) && (240 <= y && y < 392)) {
+				System.out.println("6번집 배달");
+				setIcon(box3);
+				setSize(100, 87);
+				player.setCompleteDelivery(true);
+				System.out.println("6번집 배달완료");
+			}
+
+			if ((830 <= x && x < 945) && (0 <= y && y < 112)) {
+				System.out.println("7번집 배달");
+				setIcon(box3);
+				setSize(100, 87);
+				player.setCompleteDelivery(true);
+				System.out.println("7번집 배달완료");
+			}
+
+			if ((820 <= x && x < 945) && (408 <= y && y < 568)) {
+				System.out.println("8번집 배달");
+				setIcon(box3);
+				setSize(100, 87);
+				player.setCompleteDelivery(true);
+				System.out.println("8번집 배달완료");
 			}
 		} else {
 			System.out.println("맵 오류");
