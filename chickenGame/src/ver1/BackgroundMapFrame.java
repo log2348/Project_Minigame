@@ -56,6 +56,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 	private JLabel deliveryAddressLabel;
 
+
 	public BackgroundMapFrame() {
 		initData();
 		setInitLayout();
@@ -82,13 +83,15 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 		startBtn.setFont(new Font("D2Coding", Font.BOLD, 15));
 		startBtn.setBackground(Color.LIGHT_GRAY);
-
+		
+		//TODO address
 		sales = new Sales(this);
 		player = Player.getInstance();
 
+
 		totalSalesLabel = new JLabel("총 매출 : " + sales.updateTotalSales());
 		goalSalesLabel = new JLabel("목표 매출 : " + sales.getRandomGoalSales());
-		deliveryAddressLabel = new JLabel("배달지 : " + sales.getRandomAddress() + "번 집");
+		deliveryAddressLabel = new JLabel("배달지 : " + sales.address + "번 집");
 
 		player.backgroundDeliveryService.deliveryServiceOn = false;
 		player.backgroundKitchenService.kitchenServiceOn = true;
@@ -220,13 +223,17 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 				case KeyEvent.VK_G: // 상호작용 G키
 					System.out.println("G 상호작용");
+					System.out.println("x : " + player.getX() + ", " + "y: " + player.getY());
 					chicken = new Chicken(player);
 					add(chicken);
 					if (player.isCompleteDelivery()) {
 						totalSalesLabel.setText("총 매출 : " + sales.updateTotalSales());
 						goalSalesLabel.setText("목표 매출 : " + sales.goalSales);
 						deliveryAddressLabel.setText("배달지 : " + sales.address + "번 집");
+					}else {
+						deliveryAddressLabel.setText("배달지 : " + sales.address + "번 집, 배달완료x");
 					}
+					//G키를 누르고 배달완료가 되면 라벨을 수정해준다.
 					repaint();
 
 					break;

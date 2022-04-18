@@ -91,7 +91,7 @@ public class Chicken extends JLabel implements Moveable {
 		x = player.getX();
 		y = player.getY();
 
-		sales = new Sales(mContext);
+//		sales = new Sales(mContext);
 
 		if (player.getBackgroundKitchenService().kitchenServiceOn) {
 
@@ -125,9 +125,20 @@ public class Chicken extends JLabel implements Moveable {
 				System.out.println("포장합니다");
 			}
 		} else if (player.getBackgroundDeliveryService().deliveryServiceOn) {
-			if ((0 <= x && x < 173) && (0 <= y && y < 181)) {
-				if (sales.address == 1) {
+			// 그니까
+			// 1번째는 배달 성공인데
+			// 두번째부터 안된다는 거잖아.
+			// 올바른 좌표에 갔는데도 잘못된 배달입니다. 뜨잖아
+			// 그이유가 뭘까.
+			// G키 눌림 -> player좌표 인식 -> address번호와 대조해서 맞으면 -> 배달완료
+			// address번호와 대조해서 틀리면 잘못된 배달입니다.
+
+			if (sales.address == 1) {
+				if ((0 <= x && x < 173) && (0 <= y && y < 181)) {
+
 					System.out.println("1번집 배달");
+					setIcon(box3);
+					setSize(100, 87);
 					System.out.println("1번집 배달완료");
 					player.setCompleteDelivery(true);
 				} else {
@@ -135,9 +146,12 @@ public class Chicken extends JLabel implements Moveable {
 					player.setCompleteDelivery(false);
 				}
 
-			} else if ((0 <= x && x < 141) && (182 <= y && y < 384)) {
-				if (sales.address == 2) {
+			}else if (sales.address == 2) {
+				if ((0 <= x && x < 141) && (182 <= y && y < 384)) {
+
 					System.out.println("2번집 배달");
+					setIcon(box3);
+					setSize(100, 87);
 					System.out.println("2번집 배달완료");
 					player.setCompleteDelivery(true);
 				} else {
@@ -145,9 +159,12 @@ public class Chicken extends JLabel implements Moveable {
 					player.setCompleteDelivery(false);
 				}
 
-			} else if ((400 <= x && x < 631) && (0 <= y && y < 167)) {
-				if (sales.address == 3) {
+			} else if (sales.address == 3) {
+
+				if ((400 <= x && x < 631) && (0 <= y && y < 167)) {
 					System.out.println("3번집 배달");
+					setIcon(box3);
+					setSize(100, 87);
 					System.out.println("3번집 배달완료");
 					player.setCompleteDelivery(true);
 				} else {
@@ -155,9 +172,12 @@ public class Chicken extends JLabel implements Moveable {
 					player.setCompleteDelivery(false);
 				}
 
-			} else if ((360 <= x && x < 422) && (240 <= y && y < 400)) {
-				if (sales.address == 4) {
+			}else if (sales.address == 4) {
+
+				if ((340 <= x && x < 487) && (240 <= y && y < 400)) {
 					System.out.println("4번집 배달");
+					setIcon(box3);
+					setSize(100, 87);
 					System.out.println("4번집 배달완료");
 					player.setCompleteDelivery(true);
 				} else {
@@ -165,9 +185,12 @@ public class Chicken extends JLabel implements Moveable {
 					player.setCompleteDelivery(false);
 				}
 
-			} else if ((356 <= x && x < 487) && (393 <= y && y < 570)) {
-				if (sales.address == 5) {
+			}else	if (sales.address == 5) {
+
+				if ((356 <= x && x < 487) && (393 <= y && y < 570)) {
 					System.out.println("5번집 배달");
+					setIcon(box3);
+					setSize(100, 87);
 					System.out.println("5번집 배달완료");
 					player.setCompleteDelivery(true);
 
@@ -176,9 +199,12 @@ public class Chicken extends JLabel implements Moveable {
 					player.setCompleteDelivery(false);
 				}
 
-			} else if ((402 <= x && x < 648) && (240 <= y && y < 392)) {
-				if (sales.address == 6) {
+			}	else if (sales.address == 6) {
+
+				if ((487<= x && x < 626) && (240<= y && y < 392)) {
 					System.out.println("6번집 배달");
+					setIcon(box3);
+					setSize(100, 87);
 					System.out.println("6번집 배달완료");
 					player.setCompleteDelivery(true);
 				} else {
@@ -186,9 +212,12 @@ public class Chicken extends JLabel implements Moveable {
 					player.setCompleteDelivery(false);
 				}
 
-			} else if ((830 <= x && x < 945) && (0 <= y && y < 112)) {
-				if (sales.address == 7) {
+			}else	if (sales.address == 7) {
+
+				if ((858 <= x && x < 945) && (0 <= y && y < 112)) {
 					System.out.println("7번집 배달");
+					setIcon(box3);
+					setSize(100, 87);
 					System.out.println("7번집 배달완료");
 					player.setCompleteDelivery(true);
 				} else {
@@ -196,9 +225,12 @@ public class Chicken extends JLabel implements Moveable {
 					player.setCompleteDelivery(false);
 				}
 
-			} else if ((820 <= x && x < 945) && (408 <= y && y < 568)) {
-				if (sales.address == 8) {
+			}else if (sales.address == 8) {
+
+				if ((820 <= x && x < 945) && (408 <= y && y < 568)) {
 					System.out.println("8번집 배달");
+					setIcon(box3);
+					setSize(100, 87);
 					System.out.println("8번집 배달완료");
 					player.setCompleteDelivery(true);
 				} else {
@@ -206,8 +238,6 @@ public class Chicken extends JLabel implements Moveable {
 					player.setCompleteDelivery(false);
 				}
 			}
-			setIcon(box3);
-			setSize(100, 87);
 
 		} else {
 			System.out.println("맵 오류");

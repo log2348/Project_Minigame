@@ -27,14 +27,13 @@ public class Sales extends JLabel {
 	public Sales(BackgroundMapFrame mContext) {
 		this.mContext = mContext;
 		player = Player.getInstance();
-		updateTotalSales();
-
+		address = getRandomAddress();
 	}
 
 	public int updateTotalSales() {
 		if (player.isCompleteDelivery()) {
 			totalSales += 19000;
-			getRandomAddress();
+			address = getRandomAddress();
 			
 			if (totalSales >= goalSales) {
 				System.out.println("목표 매출 달성");
@@ -54,9 +53,9 @@ public class Sales extends JLabel {
 	
 	public int getRandomAddress() {
         Random rd = new Random();
-        address = rd.nextInt(HOUSE_AMOUNT) + 1;
-        return address;
-    }
+       int localAddress = rd.nextInt(7)+1; // 0~7->1~8
+        return localAddress;
+        }
 	public JLabel afterSucceed() {
 		return new AfterSucceedLabel(mContext);
 
