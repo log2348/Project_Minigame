@@ -118,15 +118,12 @@ public class Chicken extends JLabel implements Moveable {
 				setSize(100, 87);
 				System.out.println("포장합니다");
 			}
-		} else if(player.getBackgroundDeliveryService().deliveryServiceOn){
+		} else if (player.getBackgroundDeliveryService().deliveryServiceOn) {
 			if ((x == 418 && y == 42) || (x == 88 && y == 96) || (x == 84 && y == 932)
 					|| ((x == 362 || x == 524) && y == 312) || ((x == 858 || x == 386) && y == 488)) {
 				player.setCompleteDelivery(true);
-				setIcon(box1);
 				System.out.println("배달완료");
-
 			}
-
 		} else {
 			System.out.println("맵 오류");
 		}
@@ -155,15 +152,9 @@ public class Chicken extends JLabel implements Moveable {
 		for (int i = 0; i < 180; i++) {
 			x--;
 			setLocation(x, y);
-			// 현재 색상 체크 (메소드 호출)
-//			if(x == 218 && (508 <= y && y <= 604)) {
-//				left = false; // 상태변수 초기화
-//				break;
-//			}
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -177,54 +168,13 @@ public class Chicken extends JLabel implements Moveable {
 		for (int i = 0; i < 180; i++) {
 			x++;
 			setLocation(x, y);
-//			if(x == 722 && (400 <= y && y <= 504)) {
-//				right = false; // 상태변수 초기화
-//				break;
-//			}
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		right = false; // 상태변수 초기화
-
-	}
-
-	@Override
-	public void up() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void down() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void jumpUpInKit() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void jumpDownInKit() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void jumpUpInDel() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void jumpDownInDel() {
-		// TODO Auto-generated method stub
 
 	}
 

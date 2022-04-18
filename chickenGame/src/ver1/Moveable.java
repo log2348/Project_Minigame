@@ -4,12 +4,12 @@ public interface Moveable {
 	void left();
 	void right();
 	
-	void up();//걸어올라감
-	void down();//걸어내려감
+	default public void up() {};
+	default public void down() {};
 	
-	void jumpUpInKit();
-	void jumpDownInKit();
+	default public void jumpUpInKit() {};
+	default public void jumpDownInKit() {};
 	
-	void jumpUpInDel();
-	void jumpDownInDel();
+	default public void jumpUpInDel() {};
+	default public void jumpDownInDel() {};
 }
