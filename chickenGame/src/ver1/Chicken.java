@@ -89,23 +89,23 @@ public class Chicken extends JLabel implements Moveable{
 		x = player.getX();
 		y = player.getY();
 		
-		if(x == 218 && (508 <= y && y <= 604)) {
+		if(x <= 240 && (508 <= y && y <= 604)) { // order
 			setIcon(order);
 			setSize(135, 27);
 			System.out.println("주문을 받습니다");
-		}else if(x == 722 && (400 <= y && y <= 504)) {
+		}else if(x >= 700 && (400 <= y && y <= 504)) {  // 냉장고
 			setIcon(raw);
 			setSize(40, 44);
 			System.out.println("냉장고에서 생닭을 꺼냅니다");
-		}else if(x == 274 && (332 <= y && y <= 420)) {
+		}else if(x <= 280 && (332 <= y && y <= 420)) { // 반죽
 			setIcon(chicDummy1);
 			setSize(100, 55);
 			System.out.println("생닭을 반죽합니다");
-		}else if(x == 274 && (172 <= y && y <= 228)) {
+		}else if(x <= 280 && (172 <= y && y <= 228)) {
 			setIcon(frying1);
 			setSize(200, 98);
 			System.out.println("반죽을 튀깁니다");
-		}else if(x == 274 && (24 <= y && y <= 72)) {
+		}else if(x <= 280 && (24 <= y && y <= 72)) {
 			setIcon(frying2);
 			setSize(200, 95);
 			System.out.println("한 번 더 튀깁니다");
