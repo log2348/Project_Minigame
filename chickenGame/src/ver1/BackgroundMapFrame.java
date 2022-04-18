@@ -1,11 +1,14 @@
 package ver1;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,12 +24,20 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 	JLabel deliveryMapImg;
 	// 주방 맵
 	JLabel kitchenMapImg;
+	// 게임 인트로
+	JLabel introImg;
 	// 이미지 파일명
+	private String introFileName = "images/kit_finalState.png";
+
 	private String deliveryMapFileName = "images/Map_del.jpg";
 	private String kitchenMapFileName = "images/Map_kit.jpg";
 
 	public JButton changeDeliveryMapBtn;
 	public JButton changeKitchenMapBtn;
+
+	public JButton startBtn;
+
+	private Chicken chicken;
 
 	private Sales sales;
 
@@ -43,6 +54,8 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 	private ImageIcon delPlayerL;
 	private ImageIcon delPlayerR;
 
+	private JLabel deliveryAddressLabel;
+
 	public BackgroundMapFrame() {
 		initData();
 		setInitLayout();
@@ -58,17 +71,24 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		kitchenMapImg = new JLabel(new ImageIcon(kitchenMapFileName));
 		deliveryMapImg = new JLabel(new ImageIcon(deliveryMapFileName));
 
+		introImg = new JLabel(new ImageIcon(introFileName));
+
 		changeDeliveryMapBtn = new JButton("배달하기");
 		changeKitchenMapBtn = new JButton("주방으로");
+		startBtn = new JButton("게임 시작");
 
-		changeDeliveryMapBtn.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-		changeKitchenMapBtn.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		changeDeliveryMapBtn.setFont(new Font("D2Coding", Font.BOLD, 15));
+		changeKitchenMapBtn.setFont(new Font("D2Coding", Font.BOLD, 15));
+
+		startBtn.setFont(new Font("D2Coding", Font.BOLD, 15));
+		startBtn.setBackground(Color.LIGHT_GRAY);
 
 		sales = new Sales();
 		player = Player.getInstance();
 
 		totalSalesLabel = new JLabel("총 매출 : " + sales.updateTotalSales());
 		goalSalesLabel = new JLabel("목표 매출 : " + sales.getRandomGoalSales());
+		deliveryAddressLabel = new JLabel("배달지 : " + sales.getRandomAddress() + "번 집");
 
 		player.backgroundDeliveryService.deliveryServiceOn = false;
 		player.backgroundKitchenService.kitchenServiceOn = true;
@@ -89,19 +109,24 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		changeDeliveryMapBtn.setBounds(800, 650, 100, 40);
 		changeKitchenMapBtn.setBounds(800, 650, 100, 40);
 
+		startBtn.setBounds(430, 600, 100, 40);
+		startBtn.setBorderPainted(false);
+
 		kitchenMapImg.add(changeDeliveryMapBtn);
 		deliveryMapImg.add(changeKitchenMapBtn);
+		introImg.add(startBtn);
 
 		kitchenMapImg.add(totalSalesLabel);
 		kitchenMapImg.add(goalSalesLabel);
+		kitchenMapImg.add(deliveryAddressLabel);
 
 		totalSalesLabel.setBounds(800, 700, 200, 50);
-
 		goalSalesLabel.setBounds(800, 720, 200, 50);
+		deliveryAddressLabel.setBounds(800, 740, 200, 50);
 
 		kitchenMapImg.add(player);
 
-		setContentPane(kitchenMapImg);
+		setContentPane(introImg);
 
 		setVisible(true);
 		setResizable(false);
@@ -112,6 +137,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 		changeDeliveryMapBtn.addActionListener(this);
 		changeKitchenMapBtn.addActionListener(this);
+		startBtn.addActionListener(this);
 
 		this.addKeyListener(new KeyAdapter() {
 			@Override
@@ -194,11 +220,15 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 				case KeyEvent.VK_G: // 상호작용 G키
 					System.out.println("G 상호작용");
-					totalSalesLabel.setText("총 매출 : " + sales.updateTotalSales());
-					goalSalesLabel.setText("목표 매출 : " + sales.goalSales);
-					Chicken chicken = new Chicken(player);
+					chicken = new Chicken(player);
 					add(chicken);
+					if (player.isCompleteDelivery()) {
+						totalSalesLabel.setText("총 매출 : " + sales.updateTotalSales());
+						goalSalesLabel.setText("목표 매출 : " + sales.goalSales);
+						deliveryAddressLabel.setText("배달지 : " + sales.address + "번 집");
+					}
 					repaint();
+
 					break;
 				} // end of switch
 			} // end of keyPressed
@@ -242,6 +272,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 			deliveryMapImg.add(totalSalesLabel);
 			deliveryMapImg.add(goalSalesLabel);
+			deliveryMapImg.add(deliveryAddressLabel);
 
 			player.setX(28);
 			player.setY(690);
@@ -262,6 +293,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 			kitchenMapImg.add(totalSalesLabel);
 			kitchenMapImg.add(goalSalesLabel);
+			kitchenMapImg.add(deliveryAddressLabel);
 
 			player.setX(450);
 			player.setY(700);
@@ -273,6 +305,11 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 			player.backgroundKitchenService.kitchenServiceOn = true;
 			player.backgroundDeliveryService.deliveryServiceOn = false;
 			new Thread(player.backgroundKitchenService).start();
+
+		} else if (startBtn == targetBtn) {
+			setContentPane(kitchenMapImg);
+		} else {
+			System.out.println("버튼 오류");
 		}
 		setVisible(true);
 		this.requestFocusInWindow();

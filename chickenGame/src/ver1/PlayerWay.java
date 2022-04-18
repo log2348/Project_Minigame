@@ -1,4 +1,3 @@
-
 package ver1;
 
 public enum PlayerWay {

@@ -7,12 +7,16 @@ import lombok.Data;
 
 @Data
 public class Chicken extends JLabel implements Moveable {
+	
+	private Chicken chickenContext = this;
 
 	// 의존성 컴포지션
 	private Player player;
 	// 위치 상태
 	private int x;
 	private int y;
+	
+	private Sales sales;
 
 	// 움직임 상태
 	private boolean left;
@@ -87,6 +91,8 @@ public class Chicken extends JLabel implements Moveable {
 		x = player.getX();
 		y = player.getY();
 
+		sales = new Sales();
+		
 		if (player.getBackgroundKitchenService().kitchenServiceOn) {
 
 			if (x <= 240 && (508 <= y && y <= 604)) { // order
@@ -120,67 +126,89 @@ public class Chicken extends JLabel implements Moveable {
 			}
 		} else if (player.getBackgroundDeliveryService().deliveryServiceOn) {
 			if ((0 <= x && x < 173) && (0 <= y && y < 181)) {
-				System.out.println("1번집 배달");
-				setIcon(box3);
-				setSize(100, 87);
-				player.setCompleteDelivery(true);
-				System.out.println("1번집 배달완료");
-			}
-			if ((0 <= x && x < 141) && (182 <= y && y < 384)) {
-				System.out.println("2번집 배달");
-				setIcon(box3);
-				setSize(100, 87);
-				player.setCompleteDelivery(true);
-				System.out.println("2번집 배달완료");
-			}
+				if(sales.address == 1) {
+					System.out.println("1번집 배달");
+					System.out.println("1번집 배달완료");
+					player.setCompleteDelivery(true);
+				} else {
+					System.out.println("잘못된 배달입니다.");
+					player.setCompleteDelivery(false);
+				}
 
-			if ((400 <= x && x < 631) && (0 <= y && y < 167)) {
-				System.out.println("3번집 배달");
-				setIcon(box3);
-				setSize(100, 87);
-				player.setCompleteDelivery(true);
-				System.out.println("3번집 배달완료");
-			}
+			} else if ((0 <= x && x < 141) && (182 <= y && y < 384)) {
+				if(sales.address == 2) {
+					System.out.println("2번집 배달");
+					System.out.println("2번집 배달완료");
+					player.setCompleteDelivery(true);
+				} else {
+					System.out.println("잘못된 배달입니다.");
+					player.setCompleteDelivery(false);
+				}
 
-			if ((360 <= x && x < 422) && (240 <= y && y < 400)) {
-				System.out.println("4번집 배달");
-				setIcon(box3);
-				setSize(100, 87);
-				player.setCompleteDelivery(true);
-				System.out.println("4번집 배달완료");
-			}
+			} else if ((400 <= x && x < 631) && (0 <= y && y < 167)) {
+				if(sales.address == 3) {
+					System.out.println("3번집 배달");
+					System.out.println("3번집 배달완료");
+					player.setCompleteDelivery(true);
+				} else {
+					System.out.println("잘못된 배달입니다.");
+					player.setCompleteDelivery(false);
+				}
 
-			if ((356 <= x && x < 487) && (393 <= y && y < 570)) {
-				System.out.println("5번집 배달");
-				setIcon(box3);
-				setSize(100, 87);
-				player.setCompleteDelivery(true);
-				System.out.println("5번집 배달완료");
-			}
+			} else if ((360 <= x && x < 422) && (240 <= y && y < 400)) {
+				if(sales.address == 4) {
+					System.out.println("4번집 배달");
+					System.out.println("4번집 배달완료");
+					player.setCompleteDelivery(true);
+				} else {
+					System.out.println("잘못된 배달입니다.");
+					player.setCompleteDelivery(false);
+				}
 
-			if ((402 <= x && x < 648) && (240 <= y && y < 392)) {
-				System.out.println("6번집 배달");
-				setIcon(box3);
-				setSize(100, 87);
-				player.setCompleteDelivery(true);
-				System.out.println("6번집 배달완료");
-			}
+			} else if ((356 <= x && x < 487) && (393 <= y && y < 570)) {
+				if(sales.address == 5) {
+					System.out.println("5번집 배달");
+					System.out.println("5번집 배달완료");
+					player.setCompleteDelivery(true);
+					
+				} else {
+					System.out.println("잘못된 배달입니다.");
+					player.setCompleteDelivery(false);
+				}
 
-			if ((830 <= x && x < 945) && (0 <= y && y < 112)) {
-				System.out.println("7번집 배달");
-				setIcon(box3);
-				setSize(100, 87);
-				player.setCompleteDelivery(true);
-				System.out.println("7번집 배달완료");
-			}
+			} else if ((402 <= x && x < 648) && (240 <= y && y < 392)) {
+				if(sales.address == 6) {
+					System.out.println("6번집 배달");
+					System.out.println("6번집 배달완료");
+					player.setCompleteDelivery(true);
+				} else {
+					System.out.println("잘못된 배달입니다.");
+					player.setCompleteDelivery(false);
+				}
 
-			if ((820 <= x && x < 945) && (408 <= y && y < 568)) {
-				System.out.println("8번집 배달");
-				setIcon(box3);
-				setSize(100, 87);
-				player.setCompleteDelivery(true);
-				System.out.println("8번집 배달완료");
+			} else if ((830 <= x && x < 945) && (0 <= y && y < 112)) {
+				if(sales.address == 7) {
+					System.out.println("7번집 배달");
+					System.out.println("7번집 배달완료");
+					player.setCompleteDelivery(true);
+				} else {
+					System.out.println("잘못된 배달입니다.");
+					player.setCompleteDelivery(false);
+				}
+
+			} else if ((820 <= x && x < 945) && (408 <= y && y < 568)) {
+				if(sales.address == 8) {
+					System.out.println("8번집 배달");
+					System.out.println("8번집 배달완료");
+					player.setCompleteDelivery(true);
+				} else {
+					System.out.println("잘못된 배달입니다.");
+					player.setCompleteDelivery(false);
+				}
 			}
+			setIcon(box3);
+			setSize(100, 87);
+
 		} else {
 			System.out.println("맵 오류");
 		}
@@ -204,35 +232,61 @@ public class Chicken extends JLabel implements Moveable {
 	}
 
 	@Override
-	public void left() {
-		left = true;
-		for (int i = 0; i < 180; i++) {
-			x--;
-			setLocation(x, y);
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		left = false; // 상태변수 초기화
+    public void left() {
+        left = true;
+        if (player.getBackgroundKitchenService().kitchenServiceOn) {
+            for (int i = 0; i < 180; i++) {
+                x--;
+                setLocation(x, y);
+            }
+        }else {
+            for (int i = 0; i < 50; i++) {
+                x--;
+                setLocation(x, y);
+            }
+        }
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        left = false; // 상태변수 초기화
+        removeChicken();
+    }
 
-	}
+    @Override
+    public void right() {
+        right = true;
+        if (player.getBackgroundKitchenService().kitchenServiceOn) {
+            for (int i = 0; i < 180; i++) {
+                x++;
+                setLocation(x, y);
+            }
+        }else {
+            for (int i = 0; i < 50; i++) {
+                x++;
+                setLocation(x, y);
+            }
+        }
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        right = false; // 상태변수 초기화
+        removeChicken();
+    }
 
-	@Override
-	public void right() {
-		right = true;
-		for (int i = 0; i < 180; i++) {
-			x++;
-			setLocation(x, y);
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		right = false; // 상태변수 초기화
+    private void removeChicken() {
 
-	}
+        try {
+
+            Thread.sleep(1000);
+            chickenContext = null;
+            setIcon(null);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

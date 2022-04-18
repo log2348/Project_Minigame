@@ -47,25 +47,25 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 					+ deliveryServiceImg.getRGB(player.getX() + 55 - 20, player.getY() + player.getHeight());
 
 			/*
-			System.out.println("leftColor: " + leftColor);
-			System.out.println("leftColorInt: " + leftColorInt);
-			System.out.println("rightColor: " + rightColor);
-			System.out.println("rightColorInt: " + rightColorInt);
-			System.out.println("topColor: " + topColor);
-
-			System.out.println("bottomColorInt: " + bottomColorInt);
-			System.out.println("topColorInt: " + topColorInt);
-			System.out.println("x: " + player.getX() + " , y: " + player.getY());
-			*/
+			 * System.out.println("leftColor: " + leftColor);
+			 * System.out.println("leftColorInt: " + leftColorInt);
+			 * System.out.println("rightColor: " + rightColor);
+			 * System.out.println("rightColorInt: " + rightColorInt);
+			 * System.out.println("topColor: " + topColor);
+			 * 
+			 * System.out.println("bottomColorInt: " + bottomColorInt);
+			 * System.out.println("topColorInt: " + topColorInt); System.out.println("x: " +
+			 * player.getX() + " , y: " + player.getY());
+			 */
 			if (bottomColorInt != -2) { // 바닥흰색배경이 아니면
-				//System.out.println("바닥과 닿았어");
+				// System.out.println("바닥과 닿았어");
 				player.setBottomCrash(true);
 				player.setDown(false);
 				player.setJumpDownInKit(false);
 				player.setJumpDownInDel(false);
 
 			} else { // 바닥이 흰색이면
-				//System.out.println("바닥이 흰색이야. 내려가져야해.");
+				// System.out.println("바닥이 흰색이야. 내려가져야해.");
 				player.setBottomCrash(false);
 				if (!player.isJumpUpInDel() && !player.isJumpDownInDel()) {
 					player.jumpDownInDel();
@@ -74,7 +74,7 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 			}
 
 			if (leftColorInt != -1) {
-				//System.out.println("왼쪽벽에 충돌했어");
+				// System.out.println("왼쪽벽에 충돌했어");
 				player.setLeftWallCrash(true);
 				player.setLeft(false);
 			} else {
@@ -82,7 +82,7 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 
 			}
 			if (rightColorInt != -1) {
-				//System.out.println("오른쪽 벽에 충돌했어");
+				// System.out.println("오른쪽 벽에 충돌했어");
 				player.setRightWallCrash(true);
 				player.setRight(false);
 
@@ -91,12 +91,12 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 			}
 
 			if (topColorInt != -2) {
-				if ((topColor.getRed() > 200 && topColor.getGreen() < 5 && topColor.getBlue() < 5)) {																								
+				if ((topColor.getRed() > 200 && topColor.getGreen() < 5 && topColor.getBlue() < 5)) {
 					player.setTopCrash(true);
 					player.setUp(false);
 					player.setJumpUpInKit(false);
 					player.setJumpUpInDel(false);
-					
+
 				} else { // red아니면 TopCrash(x)
 					player.setTopCrash(false);
 
