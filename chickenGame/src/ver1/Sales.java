@@ -9,43 +9,37 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Sales extends JLabel{
+public class Sales extends JLabel {
 
 	private Player player;
 
-	private Chicken chicken;
+	static int totalSales = 0;
 
-	private int totalSales;
+	static int goalSales;
 
-	private int goalSales;
-	
 	public Sales() {
 		player = Player.getInstance();
-		
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				if (player.isCompleteDelivery()) {
-					totalSales += chicken.getCHICKEN_PRICE();
-				}
-				
-			}
-		}).start();
+		updateTotalSales();
 
 	}
-	
+
+	public int updateTotalSales() {
+		if (player.isCompleteDelivery()) {
+			totalSales += 19000;
+			if (totalSales >= goalSales) {
+				System.out.println("목표 매출 달성");
+				totalSales = 0;
+				getRandomGoalSales();
+			}
+		}
+		return totalSales;
+	}
+
 	public int getRandomGoalSales() {
 		Random rd = new Random();
-		int goalSales = (rd.nextInt(10) + 1) * 10000;
+		goalSales = (rd.nextInt(10) + 1) * 10000;
 		return goalSales;
 	}
-	
-	private void resetGoal() {
-		if(totalSales >= goalSales) {
-			System.out.println("목표 매출 달성");
-			getRandomGoalSales();
-		}
-	}
+
 
 }

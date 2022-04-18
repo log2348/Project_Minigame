@@ -67,7 +67,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		sales = new Sales();
 		player = Player.getInstance();
 
-		totalSalesLabel = new JLabel("총 매출 : " + sales.getTotalSales());
+		totalSalesLabel = new JLabel("총 매출 : " + sales.updateTotalSales());
 		goalSalesLabel = new JLabel("목표 매출 : " + sales.getRandomGoalSales());
 
 		player.backgroundDeliveryService.deliveryServiceOn = false;
@@ -80,7 +80,6 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		delPlayerF = new ImageIcon("images/LoopyDel_front.png");
 		delPlayerL = new ImageIcon("images/LoopyDel_left.png");
 		delPlayerR = new ImageIcon("images/LoopyDel_right.png");
-
 	}
 
 	private void setInitLayout() {
@@ -120,6 +119,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
+					System.out.println("키이벤트 left");
 					player.setIcon(player.getPlayerIconL());
 
 					if (getContentPane() == kitchenMapImg) { // 키친맵인경우
@@ -137,9 +137,11 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 					break;
 				case KeyEvent.VK_RIGHT:
 					player.setIcon(player.getPlayerIconR());
+					System.out.println("키이벤트 right");
 
 					if (getContentPane() == kitchenMapImg) { // 키친맵인경우
 						if (!player.isRight() && !player.isRightWallCrash()) {
+							System.out.println("키친맵 right");
 							player.right();
 						}
 
@@ -148,21 +150,18 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 							player.right();
 
 						}
-
-//						player.jumpDownInDel();
 					}
 					repaint();
-
 					break;
 
 				case KeyEvent.VK_UP:
+					System.out.println("키이벤트 up");
 					if (getContentPane() == kitchenMapImg) {
 						if (!player.isUp() && !player.isTopCrash()) {
 							player.up();
 						}
 					}
 					repaint();
-
 					break;
 
 				case KeyEvent.VK_DOWN:
@@ -172,12 +171,10 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 						}
 					}
 					repaint();
-
 					break;
-				case KeyEvent.VK_SPACE:
 
-					// 만약 kit이면 jumpUpInKit
-					// del이면 jumpUpInDel
+				case KeyEvent.VK_SPACE:
+					// 맵 따라 점프 기능 달라짐
 					if (getContentPane() == kitchenMapImg) {
 						if (!player.isJumpUpInKit() && !player.isJumpDownInKit()) {
 
@@ -193,18 +190,16 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 						}
 					}
 					repaint();
-
 					break;
 
 				case KeyEvent.VK_G: // 상호작용 G키
 					System.out.println("G 상호작용");
+					totalSalesLabel.setText("총 매출 : " + sales.updateTotalSales());
+					goalSalesLabel.setText("목표 매출 : " + sales.goalSales);
 					Chicken chicken = new Chicken(player);
 					add(chicken);
 					repaint();
 					break;
-				default:
-					break;
-
 				} // end of switch
 			} // end of keyPressed
 
@@ -213,6 +208,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
+					System.out.println("keyReleased left");
 					player.setLeft(false);
 					break;
 				case KeyEvent.VK_RIGHT:

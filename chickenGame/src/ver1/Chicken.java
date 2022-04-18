@@ -6,11 +6,10 @@ import javax.swing.JLabel;
 import lombok.Data;
 
 @Data
-public class Chicken extends JLabel implements Moveable{
+public class Chicken extends JLabel implements Moveable {
 
 	// 의존성 컴포지션
 	private Player player;
-
 	// 위치 상태
 	private int x;
 	private int y;
@@ -23,7 +22,7 @@ public class Chicken extends JLabel implements Moveable{
 
 	// 플레이어가 가진 상태
 	private int state;
-	
+
 	private final int CHICKEN_PRICE = 19000;
 
 	private ImageIcon raw; // 생닭
@@ -47,8 +46,6 @@ public class Chicken extends JLabel implements Moveable{
 	private ImageIcon emptyNet; // 빈 튀김통
 	private ImageIcon order; // 빈 튀김통
 
-	
-
 	// 의존 주입 --> 생성자에 주입을 받는다
 	public Chicken(Player player) {
 		this.player = player;
@@ -56,7 +53,7 @@ public class Chicken extends JLabel implements Moveable{
 		initSetting();
 		initThread();
 	}
-	
+
 	private void initObject() {
 		raw = new ImageIcon("images/raw.png");
 		pos1 = new ImageIcon("images/pos1.png");
@@ -78,54 +75,68 @@ public class Chicken extends JLabel implements Moveable{
 		frying2 = new ImageIcon("images/frying2.png");
 		emptyNet = new ImageIcon("images/emptyNet.png");
 		order = new ImageIcon("images/order.png");
+
 	}
-	
+
 	private void initSetting() {
 		left = false;
 		right = false;
 		up = false;
 		down = false;
-		
+
 		x = player.getX();
 		y = player.getY();
-		
-		if(x <= 240 && (508 <= y && y <= 604)) { // order
-			setIcon(order);
-			setSize(135, 27);
-			System.out.println("주문을 받습니다");
-		}else if(x >= 700 && (400 <= y && y <= 504)) {  // 냉장고
-			setIcon(raw);
-			setSize(40, 44);
-			System.out.println("냉장고에서 생닭을 꺼냅니다");
-		}else if(x <= 280 && (332 <= y && y <= 420)) { // 반죽
-			setIcon(chicDummy1);
-			setSize(100, 55);
-			System.out.println("생닭을 반죽합니다");
-		}else if(x <= 280 && (172 <= y && y <= 228)) {
-			setIcon(frying1);
-			setSize(200, 98);
-			System.out.println("반죽을 튀깁니다");
-		}else if(x <= 280 && (24 <= y && y <= 72)) {
-			setIcon(frying2);
-			setSize(200, 95);
-			System.out.println("한 번 더 튀깁니다");
-		}else if((550 <= x && x <= 658) && (24 <= y && y <= 96)) {
-			setIcon(chicDummy3);
-			setSize(80, 50);
-			System.out.println("양념합니다");
-		}else if((550 <= x && x <= 658) && (212 <= y && y <= 308)) {
-			setIcon(box3);
-			setSize(100, 87);
-			System.out.println("포장합니다");
+
+		if (player.getBackgroundKitchenService().kitchenServiceOn) {
+
+			if (x <= 240 && (508 <= y && y <= 604)) { // order
+				setIcon(order);
+				setSize(135, 27);
+				System.out.println("주문을 받습니다");
+			} else if (x >= 700 && (400 <= y && y <= 504)) { // 냉장고
+				setIcon(raw);
+				setSize(40, 44);
+				System.out.println("냉장고에서 생닭을 꺼냅니다");
+			} else if (x <= 280 && (332 <= y && y <= 420)) { // 반죽
+				setIcon(chicDummy1);
+				setSize(100, 55);
+				System.out.println("생닭을 반죽합니다");
+			} else if (x <= 280 && (172 <= y && y <= 228)) {
+				setIcon(frying1);
+				setSize(200, 98);
+				System.out.println("반죽을 튀깁니다");
+			} else if (x <= 280 && (24 <= y && y <= 72)) {
+				setIcon(frying2);
+				setSize(200, 95);
+				System.out.println("한 번 더 튀깁니다");
+			} else if ((550 <= x && x <= 658) && (24 <= y && y <= 96)) {
+				setIcon(chicDummy3);
+				setSize(80, 50);
+				System.out.println("양념합니다");
+			} else if ((550 <= x && x <= 658) && (212 <= y && y <= 308)) {
+				setIcon(box3);
+				setSize(100, 87);
+				System.out.println("포장합니다");
+			}
+		} else if(player.getBackgroundDeliveryService().deliveryServiceOn){
+			if ((x == 418 && y == 42) || (x == 88 && y == 96) || (x == 84 && y == 932)
+					|| ((x == 362 || x == 524) && y == 312) || ((x == 858 || x == 386) && y == 488)) {
+				player.setCompleteDelivery(true);
+				setIcon(box1);
+				System.out.println("배달완료");
+
+			}
+
+		} else {
+			System.out.println("맵 오류");
 		}
-		
-		
+
 		state = 0;
 	}
-	
+
 	private void initThread() {
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				if (player.getPlayerWay() == PlayerWay.LEFT) {
@@ -135,6 +146,7 @@ public class Chicken extends JLabel implements Moveable{
 				}
 			}
 		}).start();
+
 	}
 
 	@Override
@@ -156,7 +168,7 @@ public class Chicken extends JLabel implements Moveable{
 			}
 		}
 		left = false; // 상태변수 초기화
-		
+
 	}
 
 	@Override
@@ -177,44 +189,43 @@ public class Chicken extends JLabel implements Moveable{
 			}
 		}
 		right = false; // 상태변수 초기화
-		
+
 	}
 
 	@Override
 	public void up() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void down() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void jumpUpInKit() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void jumpDownInKit() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void jumpUpInDel() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void jumpDownInDel() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
+
 }
