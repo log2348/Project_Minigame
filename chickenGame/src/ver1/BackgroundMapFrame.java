@@ -2,13 +2,13 @@ package ver1;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Insets;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.BorderFactory;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -55,7 +55,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 	private ImageIcon delPlayerR;
 
 	private JLabel deliveryAddressLabel;
-
+	private AfterSucceedLabel afterSucceedLabel;
 
 	public BackgroundMapFrame() {
 		initData();
@@ -83,11 +83,9 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 		startBtn.setFont(new Font("D2Coding", Font.BOLD, 15));
 		startBtn.setBackground(Color.LIGHT_GRAY);
-		
-		//TODO address
+
 		sales = new Sales(this);
 		player = Player.getInstance();
-
 
 		totalSalesLabel = new JLabel("총 매출 : " + sales.updateTotalSales());
 		goalSalesLabel = new JLabel("목표 매출 : " + sales.getRandomGoalSales());
@@ -103,6 +101,8 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		delPlayerF = new ImageIcon("images/LoopyDel_front.png");
 		delPlayerL = new ImageIcon("images/LoopyDel_left.png");
 		delPlayerR = new ImageIcon("images/LoopyDel_right.png");
+
+		afterSucceedLabel = new AfterSucceedLabel(this);
 	}
 
 	private void setInitLayout() {
@@ -111,6 +111,13 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 		changeDeliveryMapBtn.setBounds(800, 650, 100, 40);
 		changeKitchenMapBtn.setBounds(800, 650, 100, 40);
+		
+		changeDeliveryMapBtn.setFont(new Font("D2Coding", Font.BOLD, 15));
+		changeKitchenMapBtn.setFont(new Font("D2Coding", Font.BOLD, 15));
+		changeDeliveryMapBtn.setBackground(Color.LIGHT_GRAY);
+		changeKitchenMapBtn.setBackground(Color.LIGHT_GRAY);
+		changeDeliveryMapBtn.setBorder(null);
+		changeKitchenMapBtn.setBorder(null);
 
 		startBtn.setBounds(430, 600, 100, 40);
 		startBtn.setBorderPainted(false);
@@ -141,6 +148,10 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		changeDeliveryMapBtn.addActionListener(this);
 		changeKitchenMapBtn.addActionListener(this);
 		startBtn.addActionListener(this);
+//		afterSucceedLabel.getRestartBtn().addActionListener(this);
+//		afterSucceedLabel.getFinishGameBtn().addActionListener(this);
+		
+		
 
 		this.addKeyListener(new KeyAdapter() {
 			@Override
@@ -230,10 +241,10 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 						totalSalesLabel.setText("총 매출 : " + sales.updateTotalSales());
 						goalSalesLabel.setText("목표 매출 : " + sales.goalSales);
 						deliveryAddressLabel.setText("배달지 : " + sales.address + "번 집");
-					}else {
+					} else {
 						deliveryAddressLabel.setText("배달지 : " + sales.address + "번 집, 배달완료x");
 					}
-					//G키를 누르고 배달완료가 되면 라벨을 수정해준다.
+					// G키를 누르고 배달완료가 되면 라벨을 수정해준다.
 					repaint();
 
 					break;
@@ -315,11 +326,14 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 		} else if (startBtn == targetBtn) {
 			setContentPane(kitchenMapImg);
-		} else {
+		}	else {
 			System.out.println("버튼 오류");
 		}
+
+
 		setVisible(true);
 		this.requestFocusInWindow();
+
 	}
 
 	public static void main(String[] args) {
