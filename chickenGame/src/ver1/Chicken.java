@@ -7,15 +7,15 @@ import lombok.Data;
 
 @Data
 public class Chicken extends JLabel implements Moveable {
-	
-	private Chicken chickenContext = this;
 
+	private Chicken chickenContext = this;
+	BackgroundMapFrame mContext;
 	// 의존성 컴포지션
 	private Player player;
 	// 위치 상태
 	private int x;
 	private int y;
-	
+
 	private Sales sales;
 
 	// 움직임 상태
@@ -91,8 +91,8 @@ public class Chicken extends JLabel implements Moveable {
 		x = player.getX();
 		y = player.getY();
 
-		sales = new Sales();
-		
+		sales = new Sales(mContext);
+
 		if (player.getBackgroundKitchenService().kitchenServiceOn) {
 
 			if (x <= 240 && (508 <= y && y <= 604)) { // order
@@ -126,7 +126,7 @@ public class Chicken extends JLabel implements Moveable {
 			}
 		} else if (player.getBackgroundDeliveryService().deliveryServiceOn) {
 			if ((0 <= x && x < 173) && (0 <= y && y < 181)) {
-				if(sales.address == 1) {
+				if (sales.address == 1) {
 					System.out.println("1번집 배달");
 					System.out.println("1번집 배달완료");
 					player.setCompleteDelivery(true);
@@ -136,7 +136,7 @@ public class Chicken extends JLabel implements Moveable {
 				}
 
 			} else if ((0 <= x && x < 141) && (182 <= y && y < 384)) {
-				if(sales.address == 2) {
+				if (sales.address == 2) {
 					System.out.println("2번집 배달");
 					System.out.println("2번집 배달완료");
 					player.setCompleteDelivery(true);
@@ -146,7 +146,7 @@ public class Chicken extends JLabel implements Moveable {
 				}
 
 			} else if ((400 <= x && x < 631) && (0 <= y && y < 167)) {
-				if(sales.address == 3) {
+				if (sales.address == 3) {
 					System.out.println("3번집 배달");
 					System.out.println("3번집 배달완료");
 					player.setCompleteDelivery(true);
@@ -156,7 +156,7 @@ public class Chicken extends JLabel implements Moveable {
 				}
 
 			} else if ((360 <= x && x < 422) && (240 <= y && y < 400)) {
-				if(sales.address == 4) {
+				if (sales.address == 4) {
 					System.out.println("4번집 배달");
 					System.out.println("4번집 배달완료");
 					player.setCompleteDelivery(true);
@@ -166,18 +166,18 @@ public class Chicken extends JLabel implements Moveable {
 				}
 
 			} else if ((356 <= x && x < 487) && (393 <= y && y < 570)) {
-				if(sales.address == 5) {
+				if (sales.address == 5) {
 					System.out.println("5번집 배달");
 					System.out.println("5번집 배달완료");
 					player.setCompleteDelivery(true);
-					
+
 				} else {
 					System.out.println("잘못된 배달입니다.");
 					player.setCompleteDelivery(false);
 				}
 
 			} else if ((402 <= x && x < 648) && (240 <= y && y < 392)) {
-				if(sales.address == 6) {
+				if (sales.address == 6) {
 					System.out.println("6번집 배달");
 					System.out.println("6번집 배달완료");
 					player.setCompleteDelivery(true);
@@ -187,7 +187,7 @@ public class Chicken extends JLabel implements Moveable {
 				}
 
 			} else if ((830 <= x && x < 945) && (0 <= y && y < 112)) {
-				if(sales.address == 7) {
+				if (sales.address == 7) {
 					System.out.println("7번집 배달");
 					System.out.println("7번집 배달완료");
 					player.setCompleteDelivery(true);
@@ -197,7 +197,7 @@ public class Chicken extends JLabel implements Moveable {
 				}
 
 			} else if ((820 <= x && x < 945) && (408 <= y && y < 568)) {
-				if(sales.address == 8) {
+				if (sales.address == 8) {
 					System.out.println("8번집 배달");
 					System.out.println("8번집 배달완료");
 					player.setCompleteDelivery(true);
@@ -232,61 +232,61 @@ public class Chicken extends JLabel implements Moveable {
 	}
 
 	@Override
-    public void left() {
-        left = true;
-        if (player.getBackgroundKitchenService().kitchenServiceOn) {
-            for (int i = 0; i < 180; i++) {
-                x--;
-                setLocation(x, y);
-            }
-        }else {
-            for (int i = 0; i < 50; i++) {
-                x--;
-                setLocation(x, y);
-            }
-        }
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        left = false; // 상태변수 초기화
-        removeChicken();
-    }
+	public void left() {
+		left = true;
+		if (player.getBackgroundKitchenService().kitchenServiceOn) {
+			for (int i = 0; i < 180; i++) {
+				x--;
+				setLocation(x, y);
+			}
+		} else {
+			for (int i = 0; i < 50; i++) {
+				x--;
+				setLocation(x, y);
+			}
+		}
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		left = false; // 상태변수 초기화
+		removeChicken();
+	}
 
-    @Override
-    public void right() {
-        right = true;
-        if (player.getBackgroundKitchenService().kitchenServiceOn) {
-            for (int i = 0; i < 180; i++) {
-                x++;
-                setLocation(x, y);
-            }
-        }else {
-            for (int i = 0; i < 50; i++) {
-                x++;
-                setLocation(x, y);
-            }
-        }
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        right = false; // 상태변수 초기화
-        removeChicken();
-    }
+	@Override
+	public void right() {
+		right = true;
+		if (player.getBackgroundKitchenService().kitchenServiceOn) {
+			for (int i = 0; i < 180; i++) {
+				x++;
+				setLocation(x, y);
+			}
+		} else {
+			for (int i = 0; i < 50; i++) {
+				x++;
+				setLocation(x, y);
+			}
+		}
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		right = false; // 상태변수 초기화
+		removeChicken();
+	}
 
-    private void removeChicken() {
+	private void removeChicken() {
 
-        try {
+		try {
 
-            Thread.sleep(1000);
-            chickenContext = null;
-            setIcon(null);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+			Thread.sleep(1000);
+			chickenContext = null;
+			setIcon(null);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

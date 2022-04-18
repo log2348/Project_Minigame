@@ -20,8 +20,12 @@ public class Sales extends JLabel {
 	static int address;
 	
 	static final int HOUSE_AMOUNT = 8;
+	
+	private JLabel afterSucceedLabel;
+	private BackgroundMapFrame mContext;
 
-	public Sales() {
+	public Sales(BackgroundMapFrame mContext) {
+		this.mContext = mContext;
 		player = Player.getInstance();
 		updateTotalSales();
 
@@ -36,6 +40,7 @@ public class Sales extends JLabel {
 				System.out.println("목표 매출 달성");
 				totalSales = 0;
 				getRandomGoalSales();
+				afterSucceed();
 			}
 		}
 		return totalSales;
@@ -52,5 +57,9 @@ public class Sales extends JLabel {
         address = rd.nextInt(HOUSE_AMOUNT) + 1;
         return address;
     }
+	public JLabel afterSucceed() {
+		return new AfterSucceedLabel(mContext);
+
+	}
 
 }

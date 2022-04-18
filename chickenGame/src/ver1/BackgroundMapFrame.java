@@ -83,7 +83,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		startBtn.setFont(new Font("D2Coding", Font.BOLD, 15));
 		startBtn.setBackground(Color.LIGHT_GRAY);
 
-		sales = new Sales();
+		sales = new Sales(this);
 		player = Player.getInstance();
 
 		totalSalesLabel = new JLabel("총 매출 : " + sales.updateTotalSales());
