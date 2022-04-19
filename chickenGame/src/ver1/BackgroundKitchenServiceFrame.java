@@ -53,14 +53,13 @@ public class BackgroundKitchenServiceFrame implements Runnable {
 				player.setJumpDownInDel(false);
 
 			} else { // 바닥이 흰색이면
-				//System.out.println("바닥이 흰색이야. 내려가져야해.");
 				player.setBottomCrash(false);
 		
 
 			}
 
 			if (leftColorInt != -1) {
-				//System.out.println("왼쪽벽에 충돌했어");
+				//System.out.println("왼쪽 벽 충돌");
 				player.setLeftWallCrash(true);
 				player.setLeft(false);
 			} else {
@@ -68,7 +67,7 @@ public class BackgroundKitchenServiceFrame implements Runnable {
 
 			}
 			if (rightColorInt != -1) {
-				//System.out.println("오른쪽 벽에 충돌했어");
+				//System.out.println("오른쪽 벽 충돌");
 				player.setRightWallCrash(true);
 				player.setRight(false);
 
@@ -77,7 +76,7 @@ public class BackgroundKitchenServiceFrame implements Runnable {
 			}
 
 			if (topColorInt != -2) { // 천장흰색아니면
-				//System.out.println("천장과 닿았어");
+				//System.out.println("천장 충돌");
 				player.setTopCrash(true);
 				player.setUp(false);
 				player.setJumpUpInKit(false);

@@ -149,7 +149,6 @@ public class Chicken extends JLabel implements Moveable {
 		x = player.getX();
 		y = player.getY();
 
-//		sales = new Sales(mContext);
 		order_area = (x <= 240 && (508 <= y && y <= 604));
 		fridge_area = (x >= 700 && (400 <= y && y <= 504));
 		chickDummy1_area = (x <= 280 && (332 <= y && y <= 420));
@@ -176,21 +175,7 @@ public class Chicken extends JLabel implements Moveable {
 				box3();
 			}
 
-//			if(foodStep == 1) {
-//				
-//			}
-//			for(foodStep = 0; foodStep < 7; foodStep++) {
-//				
-//			}
-
-		} else if (player.getBackgroundDeliveryService().deliveryServiceOn  && player.getFoodStep() == 6) {
-			// 그니까
-			// 1번째는 배달 성공인데
-			// 두번째부터 안된다는 거잖아.
-			// 올바른 좌표에 갔는데도 잘못된 배달입니다. 뜨잖아
-			// 그이유가 뭘까.
-			// G키 눌림 -> player좌표 인식 -> address번호와 대조해서 맞으면 -> 배달완료
-			// address번호와 대조해서 틀리면 잘못된 배달입니다.
+		} else if (player.getBackgroundDeliveryService().deliveryServiceOn && player.getFoodStep() == 6) {
 
 			if (sales.address == 1) {
 				if ((0 <= x && x < 173) && (0 <= y && y < 181)) {
@@ -361,7 +346,7 @@ public class Chicken extends JLabel implements Moveable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		right = false; // 상태변수 초기화
+		right = false;
 		removeChicken();
 	}
 

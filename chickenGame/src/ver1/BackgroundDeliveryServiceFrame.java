@@ -54,7 +54,6 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 				player.setJumpDownInDel(false);
 
 			} else { // 흰색배경이면
-				// System.out.println("바닥이 흰색이야. 내려가져야해.");
 				player.setBottomCrash(false);
 				if (!player.isJumpUpInDel() && !player.isJumpDownInDel()) {
 					player.jumpDownInDel();
@@ -63,7 +62,7 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 			}
 
 			if (leftColorInt != -1) {
-				// System.out.println("왼쪽벽에 충돌했어");
+				// System.out.println("왼쪽 벽 충돌");
 				player.setLeftWallCrash(true);
 				player.setLeft(false);
 			} else {
@@ -71,7 +70,7 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 
 			}
 			if (rightColorInt != -1) {
-				// System.out.println("오른쪽 벽에 충돌했어");
+				// System.out.println("오른쪽 벽 충돌");
 				player.setRightWallCrash(true);
 				player.setRight(false);
 

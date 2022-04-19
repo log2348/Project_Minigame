@@ -33,7 +33,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 	public JButton changeDeliveryMapBtn;
 	public JButton changeKitchenMapBtn;
 	public JButton startBtn;
-	
+
 	private Sales sales;
 
 	private JLabel totalSalesLabel;
