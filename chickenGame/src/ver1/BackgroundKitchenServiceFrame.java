@@ -43,16 +43,6 @@ public class BackgroundKitchenServiceFrame implements Runnable {
 			int bottomColorInt = kitchenServiceImg.getRGB(player.getX() + 20, player.getY() + player.getHeight())
 					+ kitchenServiceImg.getRGB(player.getX() + 55 - 20, player.getY() + player.getHeight());
 
-			/*
-			System.out.println("leftColor: " + leftColor);
-			System.out.println("leftColorInt: " + leftColorInt);
-			System.out.println("rightColor: " + rightColor);
-			System.out.println("rightColorInt: " + rightColorInt);
-			System.out.println("bottomColorInt: " + bottomColorInt);
-			System.out.println("topColorInt: " + topColorInt);
-			System.out.println("x: " + player.getX() + " , y: " + player.getY());
-			*/
-
 			if (bottomColorInt != -2) { // 바닥흰색배경이 아니면
 
 				//System.out.println("바닥과 닿았어");

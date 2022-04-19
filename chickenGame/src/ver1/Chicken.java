@@ -8,11 +8,8 @@ import lombok.Data;
 @Data
 public class Chicken extends JLabel implements Moveable {
 
-	private Chicken chickenContext = this;
-	BackgroundMapFrame mContext;
-	
 	private Player player;
-	
+
 	// 위치 상태
 	private int x;
 	private int y;
@@ -48,6 +45,14 @@ public class Chicken extends JLabel implements Moveable {
 	private ImageIcon emptyNet; // 빈 튀김통
 	private ImageIcon order; // 빈 튀김통
 
+	private boolean order_area;
+	private boolean fridge_area;
+	private boolean chickDummy1_area;
+	private boolean frying1_area;
+	private boolean frying2_area;
+	private boolean chicDummy3_area;
+	private boolean box3_area;
+
 	public Chicken(Player player) {
 		this.player = player;
 		initObject();
@@ -79,6 +84,62 @@ public class Chicken extends JLabel implements Moveable {
 
 	}
 
+	private void order() {
+		setIcon(order);
+		setSize(135, 27);
+		System.out.println("주문을 받습니다");
+		player.setFoodStep(0);
+		// System.out.println(foodStep);
+	}
+
+	private void raw() {
+		setIcon(raw);
+		setSize(40, 44);
+		System.out.println("냉장고에서 생닭을 꺼냅니다");
+		player.setFoodStep(1);
+		// System.out.println(foodStep);
+	}
+
+	private void chicDummy1() {
+		setIcon(chicDummy1);
+		setSize(100, 55);
+		System.out.println("생닭을 반죽합니다");
+		player.setFoodStep(2);
+		// System.out.println(foodStep);
+	}
+
+	private void frying1() {
+		setIcon(frying1);
+		setSize(200, 98);
+		System.out.println("반죽을 튀깁니다");
+		player.setFoodStep(3);
+		// System.out.println(foodStep);
+	}
+
+	private void frying2() {
+		setIcon(frying2);
+		setSize(200, 95);
+		System.out.println("한 번 더 튀깁니다");
+		player.setFoodStep(4);
+		// System.out.println(foodStep);
+	}
+
+	private void chicDummy3() {
+		setIcon(chicDummy3);
+		setSize(80, 50);
+		System.out.println("양념합니다");
+		player.setFoodStep(5);
+		// System.out.println(foodStep);
+	}
+
+	private void box3() {
+		setIcon(box3);
+		setSize(100, 87);
+		System.out.println("포장합니다");
+		player.setFoodStep(6);
+		// System.out.println(foodStep);
+	}
+
 	private void initSetting() {
 		left = false;
 		right = false;
@@ -88,38 +149,48 @@ public class Chicken extends JLabel implements Moveable {
 		x = player.getX();
 		y = player.getY();
 
+//		sales = new Sales(mContext);
+		order_area = (x <= 240 && (508 <= y && y <= 604));
+		fridge_area = (x >= 700 && (400 <= y && y <= 504));
+		chickDummy1_area = (x <= 280 && (332 <= y && y <= 420));
+		frying1_area = (x <= 280 && (172 <= y && y <= 228));
+		frying2_area = (x <= 280 && (24 <= y && y <= 72));
+		chicDummy3_area = ((550 <= x && x <= 658) && (24 <= y && y <= 96));
+		box3_area = ((550 <= x && x <= 658) && (212 <= y && y <= 308));
+
 		if (player.getBackgroundKitchenService().kitchenServiceOn) {
 
-			if (x <= 240 && (508 <= y && y <= 604)) {
-				setIcon(order);
-				setSize(135, 27);
-				System.out.println("주문을 받습니다");
-			} else if (x >= 700 && (400 <= y && y <= 504)) {
-				setIcon(raw);
-				setSize(40, 44);
-				System.out.println("냉장고에서 생닭을 꺼냅니다");
-			} else if (x <= 280 && (332 <= y && y <= 420)) {
-				setIcon(chicDummy1);
-				setSize(100, 55);
-				System.out.println("생닭을 반죽합니다");
-			} else if (x <= 280 && (172 <= y && y <= 228)) {
-				setIcon(frying1);
-				setSize(200, 98);
-				System.out.println("반죽을 튀깁니다");
-			} else if (x <= 280 && (24 <= y && y <= 72)) {
-				setIcon(frying2);
-				setSize(200, 95);
-				System.out.println("한 번 더 튀깁니다");
-			} else if ((550 <= x && x <= 658) && (24 <= y && y <= 96)) {
-				setIcon(chicDummy3);
-				setSize(80, 50);
-				System.out.println("양념합니다");
-			} else if ((550 <= x && x <= 658) && (212 <= y && y <= 308)) {
-				setIcon(box3);
-				setSize(100, 87);
-				System.out.println("포장합니다");
+			if (order_area) { // order
+				order();
+			} else if (fridge_area && player.getFoodStep() == 0) { // 냉장고
+				raw();
+			} else if (chickDummy1_area && player.getFoodStep() == 1) { // 반죽
+				chicDummy1();
+			} else if (frying1_area && player.getFoodStep() == 2) { // 튀김기1
+				frying1();
+			} else if (frying2_area && player.getFoodStep() == 3) { // 튀김기2
+				frying2();
+			} else if (chicDummy3_area && player.getFoodStep() == 4) { // 양념
+				chicDummy3();
+			} else if (box3_area && player.getFoodStep() == 5) { // 포장
+				box3();
 			}
-		} else if (player.getBackgroundDeliveryService().deliveryServiceOn) {
+
+//			if(foodStep == 1) {
+//				
+//			}
+//			for(foodStep = 0; foodStep < 7; foodStep++) {
+//				
+//			}
+
+		} else if (player.getBackgroundDeliveryService().deliveryServiceOn  && player.getFoodStep() == 6) {
+			// 그니까
+			// 1번째는 배달 성공인데
+			// 두번째부터 안된다는 거잖아.
+			// 올바른 좌표에 갔는데도 잘못된 배달입니다. 뜨잖아
+			// 그이유가 뭘까.
+			// G키 눌림 -> player좌표 인식 -> address번호와 대조해서 맞으면 -> 배달완료
+			// address번호와 대조해서 틀리면 잘못된 배달입니다.
 
 			if (sales.address == 1) {
 				if ((0 <= x && x < 173) && (0 <= y && y < 181)) {
@@ -230,6 +301,7 @@ public class Chicken extends JLabel implements Moveable {
 		} else {
 			System.out.println("맵 오류");
 		}
+
 	}
 
 	private void initThread() {
@@ -266,7 +338,7 @@ public class Chicken extends JLabel implements Moveable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		left = false;
+		left = false; // 상태변수 초기화
 		removeChicken();
 	}
 
@@ -289,15 +361,15 @@ public class Chicken extends JLabel implements Moveable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		right = false;
+		right = false; // 상태변수 초기화
 		removeChicken();
 	}
 
 	private void removeChicken() {
 
 		try {
+
 			Thread.sleep(1000);
-			chickenContext = null;
 			setIcon(null);
 		} catch (InterruptedException e) {
 			e.printStackTrace();

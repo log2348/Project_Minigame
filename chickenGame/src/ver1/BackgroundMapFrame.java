@@ -33,7 +33,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 	public JButton changeDeliveryMapBtn;
 	public JButton changeKitchenMapBtn;
 	public JButton startBtn;
-
+	
 	private Sales sales;
 
 	private JLabel totalSalesLabel;
@@ -71,7 +71,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 		changeDeliveryMapBtn = new JButton("배달하기");
 		changeKitchenMapBtn = new JButton("주방으로");
-		startBtn = new JButton("게임시작");
+		startBtn = new JButton("게임 시작");
 
 		changeDeliveryMapBtn.setFont(new Font("D2Coding", Font.BOLD, 15));
 		changeKitchenMapBtn.setFont(new Font("D2Coding", Font.BOLD, 15));

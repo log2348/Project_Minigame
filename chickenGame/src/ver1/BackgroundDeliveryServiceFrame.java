@@ -46,25 +46,14 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 			int bottomColorInt = deliveryServiceImg.getRGB(player.getX() + 20, player.getY() + player.getHeight())
 					+ deliveryServiceImg.getRGB(player.getX() + 55 - 20, player.getY() + player.getHeight());
 
-			/*
-			 * System.out.println("leftColor: " + leftColor);
-			 * System.out.println("leftColorInt: " + leftColorInt);
-			 * System.out.println("rightColor: " + rightColor);
-			 * System.out.println("rightColorInt: " + rightColorInt);
-			 * System.out.println("topColor: " + topColor);
-			 * 
-			 * System.out.println("bottomColorInt: " + bottomColorInt);
-			 * System.out.println("topColorInt: " + topColorInt); System.out.println("x: " +
-			 * player.getX() + " , y: " + player.getY());
-			 */
-			if (bottomColorInt != -2) { // 바닥흰색배경이 아니면
+			if (bottomColorInt != -2) { // 흰색배경이 아니면
 				// System.out.println("바닥과 닿았어");
 				player.setBottomCrash(true);
 				player.setDown(false);
 				player.setJumpDownInKit(false);
 				player.setJumpDownInDel(false);
 
-			} else { // 바닥이 흰색이면
+			} else { // 흰색배경이면
 				// System.out.println("바닥이 흰색이야. 내려가져야해.");
 				player.setBottomCrash(false);
 				if (!player.isJumpUpInDel() && !player.isJumpDownInDel()) {
@@ -97,12 +86,12 @@ public class BackgroundDeliveryServiceFrame implements Runnable {
 					player.setJumpUpInKit(false);
 					player.setJumpUpInDel(false);
 
-				} else { // red아니면 TopCrash(x)
+				} else {
 					player.setTopCrash(false);
 
 				}
 
-			} else { // 흰색이면
+			} else {
 				player.setTopCrash(false);
 			}
 

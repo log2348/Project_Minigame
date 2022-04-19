@@ -9,15 +9,18 @@ import lombok.Data;
 public class Player extends JLabel implements Moveable {
 
 	private static Player instance = new Player();
-	
-	// 배달완료 여부
+
+	// 배달완료 상태
 	private boolean completeDelivery;
-	// 위치상태
+	// 위치 상태
 	private int x;
 	private int y;
 
 	// 플레이어의 방향
 	private PlayerWay playerWay;
+	
+	// 플레이어의 조리 순서
+	private int foodStep;
 
 	// 움직임 상태
 	private boolean left;
@@ -33,16 +36,16 @@ public class Player extends JLabel implements Moveable {
 	private final int SPEED = 2;
 	private final int JUMPSPEED = 2;
 
-	// 벽에 충돌한 상태
+	// 벽 충돌 상태
 	private boolean leftWallCrash;
 	private boolean rightWallCrash;
 	private boolean TopCrash;
 	private boolean bottomCrash;
-	
+
 	private ImageIcon playerIconF;
 	private ImageIcon playerIconL;
 	private ImageIcon playerIconR;
-	
+
 	BackgroundDeliveryServiceFrame backgroundDeliveryService;
 	BackgroundKitchenServiceFrame backgroundKitchenService;
 
@@ -75,11 +78,11 @@ public class Player extends JLabel implements Moveable {
 		rightWallCrash = false;
 		TopCrash = false;
 		bottomCrash = false;
-		
-		completeDelivery = false; 
+
+		completeDelivery = false;
 
 		playerWay = PlayerWay.RIGHT;
-		
+
 		playerIconF = new ImageIcon("images/LoopyKit_front.png");
 		playerIconL = new ImageIcon("images/LoopyKit_left.png");
 		playerIconR = new ImageIcon("images/LoopyKit_right.png");
@@ -87,14 +90,14 @@ public class Player extends JLabel implements Moveable {
 		setIcon(playerIconF);
 		setSize(55, 80);
 		setLocation(x, y);
-		
+
 		backgroundDeliveryService = new BackgroundDeliveryServiceFrame(this);
 		backgroundKitchenService = new BackgroundKitchenServiceFrame(this);
 
 	}
 
 	private void initBackgroundPlayerService() {
-		
+
 		new Thread(backgroundKitchenService).start();
 
 	}
@@ -110,7 +113,7 @@ public class Player extends JLabel implements Moveable {
 				while (left) {
 					setIcon(playerIconL);
 
-					x = x - SPEED;
+					x -= SPEED;
 					setLocation(x, y);
 					try {
 						Thread.sleep(5);
@@ -134,7 +137,7 @@ public class Player extends JLabel implements Moveable {
 
 				while (right) {
 					setIcon(playerIconR);
-					x = x + SPEED;
+					x += SPEED;
 					setLocation(x, y);
 
 					try {
@@ -157,7 +160,7 @@ public class Player extends JLabel implements Moveable {
 			@Override
 			public void run() {
 				while (up) {
-					y = y - SPEED;
+					y -= SPEED;
 					setLocation(x, y);
 					try {
 						Thread.sleep(5);
@@ -181,7 +184,7 @@ public class Player extends JLabel implements Moveable {
 			public void run() {
 				while (down) {
 					setIcon(playerIconF);
-					y = y + SPEED;
+					y += SPEED;
 					setLocation(x, y);
 					try {
 						Thread.sleep(5);
@@ -204,7 +207,7 @@ public class Player extends JLabel implements Moveable {
 			@Override
 			public void run() {
 				for (int i = 0; i < 120 / JUMPSPEED; i++) {
-					y = y - JUMPSPEED;
+					y -= JUMPSPEED;
 					setLocation(x, y);
 					try {
 						Thread.sleep(5);
@@ -229,7 +232,7 @@ public class Player extends JLabel implements Moveable {
 			@Override
 			public void run() {
 				for (int i = 0; i < 120 / JUMPSPEED; i++) {
-					y = y + JUMPSPEED;
+					y += JUMPSPEED;
 					setLocation(x, y);
 					try {
 						Thread.sleep(5);
@@ -253,7 +256,7 @@ public class Player extends JLabel implements Moveable {
 			@Override
 			public void run() {
 				for (int i = 0; i < 170 / JUMPSPEED; i++) {
-					y = y - JUMPSPEED;
+					y -= JUMPSPEED;
 					setLocation(x, y);
 					try {
 						Thread.sleep(5);
@@ -279,7 +282,7 @@ public class Player extends JLabel implements Moveable {
 			@Override
 			public void run() {
 				while (jumpDownInDel) {
-					y = y + JUMPSPEED;
+					y += JUMPSPEED;
 					setLocation(x, y);
 					try {
 						Thread.sleep(5);
