@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,25 +19,21 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BackgroundMapFrame extends JFrame implements ActionListener {
-	// 배달 맵
+	// 배달 맵 이미지
 	JLabel deliveryMapImg;
-	// 주방 맵
+	// 주방 맵 이미지
 	JLabel kitchenMapImg;
-	// 게임 인트로
+	// 게임 인트로 이미지
 	JLabel introImg;
 	// 이미지 파일명
 	private String introFileName = "images/kit_finalState.png";
-
 	private String deliveryMapFileName = "images/Map_del.jpg";
 	private String kitchenMapFileName = "images/Map_kit.jpg";
 
 	public JButton changeDeliveryMapBtn;
 	public JButton changeKitchenMapBtn;
-
 	public JButton startBtn;
-
-	private Chicken chicken;
-
+	
 	private Sales sales;
 
 	private JLabel totalSalesLabel;
@@ -111,7 +106,7 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 		changeDeliveryMapBtn.setBounds(800, 650, 100, 40);
 		changeKitchenMapBtn.setBounds(800, 650, 100, 40);
-		
+
 		changeDeliveryMapBtn.setFont(new Font("D2Coding", Font.BOLD, 15));
 		changeKitchenMapBtn.setFont(new Font("D2Coding", Font.BOLD, 15));
 		changeDeliveryMapBtn.setBackground(Color.LIGHT_GRAY);
@@ -148,10 +143,6 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 		changeDeliveryMapBtn.addActionListener(this);
 		changeKitchenMapBtn.addActionListener(this);
 		startBtn.addActionListener(this);
-//		afterSucceedLabel.getRestartBtn().addActionListener(this);
-//		afterSucceedLabel.getFinishGameBtn().addActionListener(this);
-		
-		
 
 		this.addKeyListener(new KeyAdapter() {
 			@Override
@@ -235,21 +226,17 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 				case KeyEvent.VK_G: // 상호작용 G키
 					System.out.println("G 상호작용");
 					System.out.println("x : " + player.getX() + ", " + "y: " + player.getY());
-					chicken = new Chicken(player);
-					add(chicken);
+					add(new Chicken(player));
 					if (player.isCompleteDelivery()) {
 						totalSalesLabel.setText("총 매출 : " + sales.updateTotalSales());
 						goalSalesLabel.setText("목표 매출 : " + sales.goalSales);
 						deliveryAddressLabel.setText("배달지 : " + sales.address + "번 집");
-					} else {
-						deliveryAddressLabel.setText("배달지 : " + sales.address + "번 집, 배달완료x");
 					}
-					// G키를 누르고 배달완료가 되면 라벨을 수정해준다.
 					repaint();
 
 					break;
-				} // end of switch
-			} // end of keyPressed
+				}
+			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -326,10 +313,9 @@ public class BackgroundMapFrame extends JFrame implements ActionListener {
 
 		} else if (startBtn == targetBtn) {
 			setContentPane(kitchenMapImg);
-		}	else {
+		} else {
 			System.out.println("버튼 오류");
 		}
-
 
 		setVisible(true);
 		this.requestFocusInWindow();

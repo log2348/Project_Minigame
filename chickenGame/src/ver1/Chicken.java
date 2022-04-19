@@ -10,8 +10,9 @@ public class Chicken extends JLabel implements Moveable {
 
 	private Chicken chickenContext = this;
 	BackgroundMapFrame mContext;
-	// 의존성 컴포지션
+	
 	private Player player;
+	
 	// 위치 상태
 	private int x;
 	private int y;
@@ -23,9 +24,6 @@ public class Chicken extends JLabel implements Moveable {
 	private boolean right;
 	private boolean up;
 	private boolean down;
-
-	// 플레이어가 가진 상태
-	private int state;
 
 	private final int CHICKEN_PRICE = 19000;
 
@@ -50,7 +48,6 @@ public class Chicken extends JLabel implements Moveable {
 	private ImageIcon emptyNet; // 빈 튀김통
 	private ImageIcon order; // 빈 튀김통
 
-	// 의존 주입 --> 생성자에 주입을 받는다
 	public Chicken(Player player) {
 		this.player = player;
 		initObject();
@@ -91,19 +88,17 @@ public class Chicken extends JLabel implements Moveable {
 		x = player.getX();
 		y = player.getY();
 
-//		sales = new Sales(mContext);
-
 		if (player.getBackgroundKitchenService().kitchenServiceOn) {
 
-			if (x <= 240 && (508 <= y && y <= 604)) { // order
+			if (x <= 240 && (508 <= y && y <= 604)) {
 				setIcon(order);
 				setSize(135, 27);
 				System.out.println("주문을 받습니다");
-			} else if (x >= 700 && (400 <= y && y <= 504)) { // 냉장고
+			} else if (x >= 700 && (400 <= y && y <= 504)) {
 				setIcon(raw);
 				setSize(40, 44);
 				System.out.println("냉장고에서 생닭을 꺼냅니다");
-			} else if (x <= 280 && (332 <= y && y <= 420)) { // 반죽
+			} else if (x <= 280 && (332 <= y && y <= 420)) {
 				setIcon(chicDummy1);
 				setSize(100, 55);
 				System.out.println("생닭을 반죽합니다");
@@ -125,13 +120,6 @@ public class Chicken extends JLabel implements Moveable {
 				System.out.println("포장합니다");
 			}
 		} else if (player.getBackgroundDeliveryService().deliveryServiceOn) {
-			// 그니까
-			// 1번째는 배달 성공인데
-			// 두번째부터 안된다는 거잖아.
-			// 올바른 좌표에 갔는데도 잘못된 배달입니다. 뜨잖아
-			// 그이유가 뭘까.
-			// G키 눌림 -> player좌표 인식 -> address번호와 대조해서 맞으면 -> 배달완료
-			// address번호와 대조해서 틀리면 잘못된 배달입니다.
 
 			if (sales.address == 1) {
 				if ((0 <= x && x < 173) && (0 <= y && y < 181)) {
@@ -146,7 +134,7 @@ public class Chicken extends JLabel implements Moveable {
 					player.setCompleteDelivery(false);
 				}
 
-			}else if (sales.address == 2) {
+			} else if (sales.address == 2) {
 				if ((0 <= x && x < 141) && (182 <= y && y < 384)) {
 
 					System.out.println("2번집 배달");
@@ -172,7 +160,7 @@ public class Chicken extends JLabel implements Moveable {
 					player.setCompleteDelivery(false);
 				}
 
-			}else if (sales.address == 4) {
+			} else if (sales.address == 4) {
 
 				if ((340 <= x && x < 487) && (240 <= y && y < 400)) {
 					System.out.println("4번집 배달");
@@ -185,7 +173,7 @@ public class Chicken extends JLabel implements Moveable {
 					player.setCompleteDelivery(false);
 				}
 
-			}else	if (sales.address == 5) {
+			} else if (sales.address == 5) {
 
 				if ((356 <= x && x < 487) && (393 <= y && y < 570)) {
 					System.out.println("5번집 배달");
@@ -199,9 +187,9 @@ public class Chicken extends JLabel implements Moveable {
 					player.setCompleteDelivery(false);
 				}
 
-			}	else if (sales.address == 6) {
+			} else if (sales.address == 6) {
 
-				if ((487<= x && x < 626) && (240<= y && y < 392)) {
+				if ((487 <= x && x < 626) && (240 <= y && y < 392)) {
 					System.out.println("6번집 배달");
 					setIcon(box3);
 					setSize(100, 87);
@@ -212,7 +200,7 @@ public class Chicken extends JLabel implements Moveable {
 					player.setCompleteDelivery(false);
 				}
 
-			}else	if (sales.address == 7) {
+			} else if (sales.address == 7) {
 
 				if ((858 <= x && x < 945) && (0 <= y && y < 112)) {
 					System.out.println("7번집 배달");
@@ -225,7 +213,7 @@ public class Chicken extends JLabel implements Moveable {
 					player.setCompleteDelivery(false);
 				}
 
-			}else if (sales.address == 8) {
+			} else if (sales.address == 8) {
 
 				if ((820 <= x && x < 945) && (408 <= y && y < 568)) {
 					System.out.println("8번집 배달");
@@ -242,8 +230,6 @@ public class Chicken extends JLabel implements Moveable {
 		} else {
 			System.out.println("맵 오류");
 		}
-
-		state = 0;
 	}
 
 	private void initThread() {
@@ -280,7 +266,7 @@ public class Chicken extends JLabel implements Moveable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		left = false; // 상태변수 초기화
+		left = false;
 		removeChicken();
 	}
 
@@ -303,14 +289,13 @@ public class Chicken extends JLabel implements Moveable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		right = false; // 상태변수 초기화
+		right = false;
 		removeChicken();
 	}
 
 	private void removeChicken() {
 
 		try {
-
 			Thread.sleep(1000);
 			chickenContext = null;
 			setIcon(null);

@@ -17,6 +17,9 @@ public class AfterSucceedLabel extends JLabel implements ActionListener {
 	private ImageIcon image;
 	private JButton restartBtn;
 	private JButton finishGameBtn;
+	
+	private Player player;
+	
 	BackgroundMapFrame mContext;
 
 	public AfterSucceedLabel(BackgroundMapFrame mContext) {
@@ -31,6 +34,9 @@ public class AfterSucceedLabel extends JLabel implements ActionListener {
 		image = new ImageIcon("images/Map_finishing.jpg");
 		restartBtn = new JButton("재시작");
 		finishGameBtn = new JButton("게임종료");
+		
+		player = Player.getInstance();
+		
 	}
 
 	private void initSettings() {
@@ -47,13 +53,14 @@ public class AfterSucceedLabel extends JLabel implements ActionListener {
 		finishGameBtn.setBackground(Color.LIGHT_GRAY);
 		restartBtn.setBorder(null);
 		finishGameBtn.setBorder(null);
-		
+
 		add(restartBtn);
 		add(finishGameBtn);
 		mContext.setContentPane(this);
 		this.requestFocusInWindow();
 
 	}
+
 	private void initaddEventListener() {
 		restartBtn.addActionListener(this);
 		finishGameBtn.addActionListener(this);
@@ -65,12 +72,25 @@ public class AfterSucceedLabel extends JLabel implements ActionListener {
 		JButton targetBtn = (JButton) e.getSource();
 		if (restartBtn == targetBtn) {
 			System.out.println("재시작");
-			new BackgroundMapFrame();
-		} else if (finishGameBtn == targetBtn) {
-			System.out.println("종료");
+			
+			player.setX(450);
+			player.setY(700);
+			mContext.kitchenMapImg.add(player);
+			player.setIcon(mContext.getKitPlayerR());
+			player.setPlayerIconF(mContext.getKitPlayerR());
+			player.setPlayerIconL(mContext.getKitPlayerL());
+			player.setPlayerIconR(mContext.getKitPlayerR());
+			
+			mContext.kitchenMapImg.add(mContext.getTotalSalesLabel());
+			mContext.kitchenMapImg.add(mContext.getGoalSalesLabel());
+			mContext.kitchenMapImg.add(mContext.getDeliveryAddressLabel());
 
-			mContext.setVisible(false);
-			mContext = null;
+			mContext.setContentPane(mContext.kitchenMapImg);
+			
+			mContext.requestFocusInWindow();
+		} else if (finishGameBtn == targetBtn) {
+			System.out.println("게임 종료");
+			System.exit(0);
 
 		}
 	}
