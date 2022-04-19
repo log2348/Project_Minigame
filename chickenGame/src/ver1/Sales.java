@@ -36,7 +36,7 @@ public class Sales extends JLabel {
 				System.out.println("목표 매출 달성");
 				totalSales = 0;
 				getRandomGoalSales();
-				//new AfterSucceedLabel(mContext);
+				new AfterSucceedLabel(mContext);
 			}
 		}
 		return totalSales;
