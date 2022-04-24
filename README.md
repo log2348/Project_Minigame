@@ -77,7 +77,6 @@ public interface Moveable {
 		JButton targetBtn = (JButton) e.getSource();
 
 		if (changeDeliveryMapBtn == targetBtn) {
-
 			System.out.println("신속배달");
 			setContentPane(deliveryMapImg);
 			deliveryMapImg.add(player);
@@ -86,13 +85,6 @@ public interface Moveable {
 			deliveryMapImg.add(totalSalesLabel);
 			deliveryMapImg.add(goalSalesLabel);
 			deliveryMapImg.add(deliveryAddressLabel);
-
-			player.setX(28);
-			player.setY(690);
-			player.setIcon(delPlayerR);
-			player.setPlayerIconF(delPlayerF);
-			player.setPlayerIconL(delPlayerL);
-			player.setPlayerIconR(delPlayerR);
 
 			player.backgroundDeliveryService.deliveryServiceOn = true;
 			player.backgroundKitchenService.kitchenServiceOn = false;
@@ -107,13 +99,6 @@ public interface Moveable {
 			kitchenMapImg.add(totalSalesLabel);
 			kitchenMapImg.add(goalSalesLabel);
 			kitchenMapImg.add(deliveryAddressLabel);
-
-			player.setX(450);
-			player.setY(700);
-			player.setIcon(kitPlayerR);
-			player.setPlayerIconF(kitPlayerF);
-			player.setPlayerIconL(kitPlayerL);
-			player.setPlayerIconR(kitPlayerR);
 
 			player.backgroundKitchenService.kitchenServiceOn = true;
 			player.backgroundDeliveryService.deliveryServiceOn = false;
