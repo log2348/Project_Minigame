@@ -70,59 +70,17 @@ public interface Moveable {
 ```
 
 #### BackgroundMapFrame
-```java
-	@Override
-	public void actionPerformed(ActionEvent e) {
+- 게임이 실행되는 틀, JFrame 상속
+- 키 이벤트 발생시 플레이어 동작 메소드 호출
 
-		JButton targetBtn = (JButton) e.getSource();
-
-		if (changeDeliveryMapBtn == targetBtn) {
-			System.out.println("신속배달");
-			setContentPane(deliveryMapImg);
-			deliveryMapImg.add(player);
-			deliveryMapImg.updateUI();
-
-			deliveryMapImg.add(totalSalesLabel);
-			deliveryMapImg.add(goalSalesLabel);
-			deliveryMapImg.add(deliveryAddressLabel);
-
-			player.backgroundDeliveryService.deliveryServiceOn = true;
-			player.backgroundKitchenService.kitchenServiceOn = false;
-			new Thread(player.backgroundDeliveryService).start();
-
-		} else if (changeKitchenMapBtn == targetBtn) {
-			System.out.println("주방으로");
-			setContentPane(kitchenMapImg);
-			kitchenMapImg.add(player);
-			kitchenMapImg.updateUI();
-
-			kitchenMapImg.add(totalSalesLabel);
-			kitchenMapImg.add(goalSalesLabel);
-			kitchenMapImg.add(deliveryAddressLabel);
-
-			player.backgroundKitchenService.kitchenServiceOn = true;
-			player.backgroundDeliveryService.deliveryServiceOn = false;
-			new Thread(player.backgroundKitchenService).start();
-
-		} else if (startBtn == targetBtn) {
-			setContentPane(kitchenMapImg);
-		} else {
-			System.out.println("버튼 오류");
-		}
-
-		setVisible(true);
-		this.requestFocusInWindow();
-
-	}
-
-```
 #### BackgroundKitchenMapFrame
+- 주방 맵에서 플레이어와 외벽, 바닥과의 충돌 검사하는 코드 작성
 
 #### BackgroundDeliveryMapFrame
+- 배달 맵에서 플레이어와 외벽, 바닥과의 충돌 검사하는 코드 작성
 
 #### Chicken
  
 #### Sales
- 
  
  
