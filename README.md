@@ -53,8 +53,84 @@ public void left() {
 
 #### Moveable
 
-#### BackgroundMapFrame
+```java
+public interface Moveable {
+	void left();
+	void right();
+	
+	default public void up() {};
+	default public void down() {};
+	
+	default public void jumpUpInKit() {};
+	default public void jumpDownInKit() {};
+	
+	default public void jumpUpInDel() {};
+	default public void jumpDownInDel() {};
+}
+```
 
+#### BackgroundMapFrame
+```java
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		JButton targetBtn = (JButton) e.getSource();
+
+		if (changeDeliveryMapBtn == targetBtn) {
+
+			System.out.println("신속배달");
+			setContentPane(deliveryMapImg);
+			deliveryMapImg.add(player);
+			deliveryMapImg.updateUI();
+
+			deliveryMapImg.add(totalSalesLabel);
+			deliveryMapImg.add(goalSalesLabel);
+			deliveryMapImg.add(deliveryAddressLabel);
+
+			player.setX(28);
+			player.setY(690);
+			player.setIcon(delPlayerR);
+			player.setPlayerIconF(delPlayerF);
+			player.setPlayerIconL(delPlayerL);
+			player.setPlayerIconR(delPlayerR);
+
+			player.backgroundDeliveryService.deliveryServiceOn = true;
+			player.backgroundKitchenService.kitchenServiceOn = false;
+			new Thread(player.backgroundDeliveryService).start();
+
+		} else if (changeKitchenMapBtn == targetBtn) {
+			System.out.println("주방으로");
+			setContentPane(kitchenMapImg);
+			kitchenMapImg.add(player);
+			kitchenMapImg.updateUI();
+
+			kitchenMapImg.add(totalSalesLabel);
+			kitchenMapImg.add(goalSalesLabel);
+			kitchenMapImg.add(deliveryAddressLabel);
+
+			player.setX(450);
+			player.setY(700);
+			player.setIcon(kitPlayerR);
+			player.setPlayerIconF(kitPlayerF);
+			player.setPlayerIconL(kitPlayerL);
+			player.setPlayerIconR(kitPlayerR);
+
+			player.backgroundKitchenService.kitchenServiceOn = true;
+			player.backgroundDeliveryService.deliveryServiceOn = false;
+			new Thread(player.backgroundKitchenService).start();
+
+		} else if (startBtn == targetBtn) {
+			setContentPane(kitchenMapImg);
+		} else {
+			System.out.println("버튼 오류");
+		}
+
+		setVisible(true);
+		this.requestFocusInWindow();
+
+	}
+
+```
 #### BackgroundKitchenMapFrame
 
 #### BackgroundDeliveryMapFrame
