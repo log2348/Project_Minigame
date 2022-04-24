@@ -19,7 +19,7 @@
 
 
 
-#### Player
+### Player
 - 사용자가 조작하는 플레이어
 - JLabel 클래스 상속, Moveable 인터페이스 구현하여 플레이어 동작 정의
 - 상, 하, 좌, 우로 이동할 수 있는 메소드 존재, 스레드 사용
@@ -51,7 +51,7 @@ public void left() {
 ```
 
 
-#### Moveable
+### Moveable
 
 ```java
 public interface Moveable {
@@ -69,18 +69,18 @@ public interface Moveable {
 }
 ```
 
-#### BackgroundMapFrame
+### BackgroundMapFrame
 - 게임이 실행되는 틀, JFrame 상속
 - 키 이벤트 발생시 플레이어 동작 메소드 호출
 
-#### BackgroundKitchenMapFrame
+### BackgroundKitchenMapFrame
 - 주방 맵에서 플레이어와 외벽, 바닥과의 충돌 검사하는 코드 작성
 
-#### BackgroundDeliveryMapFrame
+### BackgroundDeliveryMapFrame
 - 배달 맵에서 플레이어와 외벽, 바닥과의 충돌 검사하는 코드 작성
 
-#### Chicken
+### Chicken
  
-#### Sales
+### Sales
  
  
