@@ -26,66 +26,34 @@
 
 ### Player
 - 사용자가 조작하는 플레이어
-- JLabel 클래스 상속, Moveable 인터페이스 구현하여 플레이어 동작 정의
-- 상, 하, 좌, 우로 이동할 수 있는 메소드 존재, 스레드 사용
-
-```java
-@Override
-public void left() {
-	System.out.println("left");
-	playerWay = PlayerWay.LEFT;
-	left = true;
-	new Thread(new Runnable() {
-		@Override
-		public void run() {
-			while (left) {
-				setIcon(playerIconL);
-
-				x -= SPEED;
-				setLocation(x, y);
-				try {
-					Thread.sleep(5);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-
-		}
-	}).start();
-}
-```
+- JLabel 클래스, Moveable 인터페이스 구현하여 플레이어 동작 정의
+- 상, 하, 좌, 우로 이동할 수 있는 메소드 존재, Thread 사용
 
 
 ### Moveable
+- 플레이어와 치킨의 동작 정의를 위한 인터페이스
 
-```java
-public interface Moveable {
-	void left();
-	void right();
-	
-	default public void up() {};
-	default public void down() {};
-	
-	default public void jumpUpInKit() {};
-	default public void jumpDownInKit() {};
-	
-	default public void jumpUpInDel() {};
-	default public void jumpDownInDel() {};
-}
-```
 
 ### BackgroundMapFrame
-- 게임이 실행되는 틀, JFrame 상속
-- 키 이벤트 발생시 플레이어 동작 메소드 호출
+- JFrame 클래스, 게임이 실행되는 틀
+- 키 이벤트 발생시 플레이어 동작 메소드 호출, 방향키로 동작하는 플레이어
+- 버튼 클릭 이벤트로 맵 이동 
+
 
 ### BackgroundKitchenMapFrame
 - 주방 맵에서 플레이어와 외벽, 바닥과의 충돌 검사하는 코드 작성
 
+
 ### BackgroundDeliveryMapFrame
 - 배달 맵에서 플레이어와 외벽, 바닥과의 충돌 검사하는 코드 작성
 
+
 ### Chicken
+ - JLabel 클래스, 치킨의 조리 단계에 따라 다른 치킨 이미지
+ - Thread 사용하여 별도의 조작없이 정해진 위치에서 움직이는 이미지 구현
+ 
  
 ### Sales
- 
+ - JLabel 클래스, 게임이 시작하고 배달을 완료함에 따라 올라가는 매출
+ - 목표 매출 달성시 매출 리셋됨
  
