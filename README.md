@@ -11,7 +11,7 @@
  </br>
  
 - 시작 화면
-<img src="https://user-images.githubusercontent.com/96460131/181437203-8edc24bb-748a-4bc9-86d3-3df57c289118.png" width=60% height=60%/>
+<img src="https://user-images.githubusercontent.com/96460131/181437203-8edc24bb-748a-4bc9-86d3-3df57c289118.png" width=62% height=62%/>
 
  </br>
 
